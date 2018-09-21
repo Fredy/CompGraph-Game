@@ -48,6 +48,9 @@ set(ALL_LIBS OpenGL::GL glfw ${GLFW_LIBRARIES} glad ${GLAD_LIBRARIES})
 add_executable(example src/example.cpp ${SOURCE})
 target_link_libraries(example PUBLIC  ${ALL_LIBS})
 
+add_executable(game_example src/game_example.cpp ${SOURCE})
+target_link_libraries(game_example PUBLIC  ${ALL_LIBS})
+
 
 ######
 
