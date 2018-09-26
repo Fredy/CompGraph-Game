@@ -28,9 +28,9 @@ GLFWwindow *initGL() {
 
   // GLFW setup
   glfwWindowHint(GLFW_SAMPLES, 4); // Anti aliasing
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
   // glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 
   GLFWwindow *window =
@@ -50,6 +50,7 @@ GLFWwindow *initGL() {
     return nullptr;
   }
   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
   glEnable(GL_DEPTH_TEST);
 
   return window;
@@ -61,54 +62,27 @@ int main() {
     return 1;
   }
 
-  // Build and compile shader programs.
-  Shader shaders("shaders/example_v.glsl", "shaders/example_f.glsl");
-
-  Rectangle foreground(0,0,UNIT_WIDTH,6, 1, shaders.ID);
-  Rectangle character(8,6,2,6, 0, shaders.ID);
-
-  float blue[3] = {0.16f, 0.23f, 0.88f};
-  float orange[3] = {1.0f, 0.67f, 0.0f};
-  float red[3] = {0.81f, 0.02f, 0.0f};
-  float black[3] = {0.0f, 0.0f, 0.0f};
-  float green[3] = {0.1f, 1.0f, 0.2f};
-  
-  // MVP
-  glm::mat4 projectionMat = glm::ortho(0.0f, UNIT_WIDTH, 0.0f, UNIT_HEIGTH, 0.0f,
-                                       100.0f); // In world coordinates
-
-
-  glm::mat4 viewMat =
-      glm::lookAt(glm::vec3{0,0,1}, {0,0,0}, {0, 1, 0});
-
-  glm::mat4 modelMat = glm::mat4(1.0f);
-
-
-  glm::mat4 mvp = projectionMat * viewMat * modelMat;
-  GLuint matrixId = glGetUniformLocation(shaders.ID, "mvp");
-  GLint colorId = glGetUniformLocation(shaders.ID, "inColor");
+  Rectangle foreground(0,0,UNIT_WIDTH,6, 1);
+  Rectangle character(8,6,2,6, 0);
 
   // Main loop
   while (!glfwWindowShouldClose(window)) {
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+     glMatrixMode(GL_PROJECTION);
+     glLoadIdentity();
+     glOrtho(0.0f, UNIT_WIDTH, 0.0f, UNIT_HEIGTH, 0.0f,100.0f);        
+     glMatrixMode(GL_MODELVIEW);
+     glLoadIdentity();
 
-    foreground.draw([&] {
-      glUniform3fv(colorId, 1, green);
-      glUniformMatrix4fv(matrixId, 1, GL_FALSE, &mvp[0][0]);
-    });
-
-    character.draw([&] {
-      glUniform3fv(colorId, 1, black);
-      glUniformMatrix4fv(matrixId, 1, GL_FALSE, &mvp[0][0]);
-    });
+     foreground.draw();
+    glColor3f(0.0,0.0,1.0); //TODO: pass color to the object class
+    character.draw();
+    glColor3f(0.0,1.0,0.0); //TODO: pass color to the object class
 
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
 
-  foreground.destroy();
-  character.destroy();
 
   glfwTerminate();
 }

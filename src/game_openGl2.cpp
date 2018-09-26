@@ -1,5 +1,5 @@
-#include "objects/object1.hpp"
-#include "objects/rectangle1.hpp"
+#include "objects/object.hpp"
+#include "objects/rectangle.hpp"
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -44,9 +44,13 @@ int main(void)
   glfwMakeContextCurrent(window);
   glfwSetKeyCallback(window, key_callback);
   glfwSetFramebufferSizeCallback(window, frameBufferSizeCallback);
+    cout << "hola" << endl;
   Rectangle foreground(0,0,UNIT_WIDTH,6, 1);
   Rectangle character(8,6,2,6, 0);
+    cout << "hola" << endl;
 
+  glEnable(GL_DEPTH_TEST);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
   while (!glfwWindowShouldClose(window))
   {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -56,10 +60,12 @@ int main(void)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    foreground.draw(0,0,UNIT_WIDTH,6,1);
+
+    foreground.draw();
     glColor3f(0.0,0.0,1.0); //TODO: pass color to the object class
-    character.draw(8,6,2,6,0);
+    character.draw();
     glColor3f(0.0,1.0,0.0); //TODO: pass color to the object class
+
     glfwSwapBuffers(window);
     glfwPollEvents();
   }

@@ -13,9 +13,9 @@ add_subdirectory(vendor/glfw)
 
 # Warning Flags
 if(MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
     if(NOT WIN32)
         set(GLAD_LIBRARIES dl)
     endif()
@@ -45,12 +45,14 @@ set(ALL_LIBS OpenGL::GL glfw ${GLFW_LIBRARIES} glad ${GLAD_LIBRARIES})
 
 # Executables
 
-add_executable(example src/example.cpp ${SOURCE})
-target_link_libraries(example PUBLIC  ${ALL_LIBS})
+# add_executable(example src/example.cpp ${SOURCE})
+# target_link_libraries(example PUBLIC  ${ALL_LIBS})
 
-add_executable(game_example src/game_example.cpp ${SOURCE})
-target_link_libraries(game_example PUBLIC  ${ALL_LIBS})
+ add_executable(game_example src/game_example.cpp ${SOURCE})
+ target_link_libraries(game_example PUBLIC  ${ALL_LIBS})
 
+add_executable(game_example2 src/game_openGl2.cpp ${SOURCE})
+target_link_libraries(game_example2 PUBLIC  ${ALL_LIBS})
 
 ######
 
