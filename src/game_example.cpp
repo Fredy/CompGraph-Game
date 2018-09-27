@@ -11,6 +11,12 @@ using namespace std;
 GLuint WIDTH = 1280, HEIGHT = 720;
 float UNIT_WIDTH = 64.0f, UNIT_HEIGTH = 36.0f;
 
+const float BLUE[] = {0.16f, 0.23f, 0.88f};
+const float ORANGE[] = {1.0f, 0.67f, 0.0f};
+const float RED[] = {0.81f, 0.02f, 0.0f};
+const float BLACK[] = {0.0f, 0.0f, 0.0f};
+const float GREEN[] = {0.1f, 1.0f, 0.2f};
+
 void frameBufferSizeCallback(GLFWwindow *window, int width, int height) {
   cout << "Width and height: " << width << ", " << height << "\n";
   WIDTH = width;
@@ -49,7 +55,7 @@ GLFWwindow *initGL() {
     cout << "Failed to initialize GLAD\n";
     return nullptr;
   }
-  //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
   glEnable(GL_DEPTH_TEST);
 
@@ -62,27 +68,26 @@ int main() {
     return 1;
   }
 
-  Rectangle foreground(0,0,UNIT_WIDTH,6, 1);
-  Rectangle character(8,6,2,6, 0);
+  Rectangle foreground(0, 0, UNIT_WIDTH, 6, 1);
+  Rectangle character(8, 6, 2, 6, 0);
 
   // Main loop
   while (!glfwWindowShouldClose(window)) {
-     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-     glMatrixMode(GL_PROJECTION);
-     glLoadIdentity();
-     glOrtho(0.0f, UNIT_WIDTH, 0.0f, UNIT_HEIGTH, 0.0f,100.0f);        
-     glMatrixMode(GL_MODELVIEW);
-     glLoadIdentity();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0.0f, UNIT_WIDTH, 0.0f, UNIT_HEIGTH, 0.0f, 100.0f);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 
-     foreground.draw();
-    glColor3f(0.0,0.0,1.0); //TODO: pass color to the object class
+    glColor3fv(GREEN);
+    foreground.draw();
+    glColor3fv(BLACK);
     character.draw();
-    glColor3f(0.0,1.0,0.0); //TODO: pass color to the object class
 
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
-
 
   glfwTerminate();
 }
