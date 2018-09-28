@@ -6,6 +6,7 @@
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
+#include "objects/player.hpp"
 using namespace std;
 
 GLuint WIDTH = 1280, HEIGHT = 720;
@@ -62,14 +63,30 @@ GLFWwindow *initGL() {
   return window;
 }
 
+
+void drawGizmo() {
+	glBegin(GL_LINES);
+	glColor3d(255,0,0);
+	glVertex3d(-UNIT_WIDTH, 0, 0);
+	glVertex3d(UNIT_WIDTH, 0, 0);
+	glColor3d(0, 255, 0);
+	glVertex3d(0, -UNIT_HEIGTH, 0);
+	glVertex3d(0, UNIT_HEIGTH, 0);
+	glEnd();
+}
+
+
+
 int main() {
   GLFWwindow *window = initGL();
   if (!window) {
     return 1;
   }
 
-  Rectangle foreground(0, 0, UNIT_WIDTH, 6, 1);
-  Rectangle character(8, 6, 2, 6, 0);
+  Rectangle foreground(0, 0, UNIT_WIDTH, 6, 2);
+  Player character;
+
+  Rectangle test (-8,-8,4,4, 3);
 
   // Main loop
   while (!glfwWindowShouldClose(window)) {
@@ -80,10 +97,13 @@ int main() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
+
+    drawGizmo();
+
     glColor3fv(GREEN);
     foreground.draw();
-    glColor3fv(BLACK);
-    character.draw();
+
+    character.draw(0.0f);
 
     glfwSwapBuffers(window);
     glfwPollEvents();
