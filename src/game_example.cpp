@@ -2,6 +2,7 @@
 #include "objects/object.hpp"
 #include "objects/player.hpp"
 #include "objects/rectangle.hpp"
+#include "objects/obstacle.hpp"
 #include <GLFW/glfw3.h>
 #include <cmath>
 #include <glad/glad.h>
@@ -10,7 +11,7 @@
 using namespace std;
 
 GLuint WIDTH = 1280, HEIGHT = 720;
-float UNIT_WIDTH = 64.0f, UNIT_HEIGTH = 36.0f;
+float UNIT_WIDTH = 64.0f, UNIT_HEIGHT = 36.0f;
 
 const float BLUE[] = {0.16f, 0.23f, 0.88f};
 const float ORANGE[] = {1.0f, 0.67f, 0.0f};
@@ -82,8 +83,23 @@ void drawGizmo() {
   glVertex3d(-UNIT_WIDTH, 0, 0);
   glVertex3d(UNIT_WIDTH, 0, 0);
   glColor3d(0, 255, 0);
-  glVertex3d(0, -UNIT_HEIGTH, 0);
-  glVertex3d(0, UNIT_HEIGTH, 0);
+  glVertex3d(0, -UNIT_HEIGHT, 0);
+  glVertex3d(0, UNIT_HEIGHT, 0);
+  glEnd();
+}
+
+void drawGrid() {
+  glBegin(GL_LINES);
+  glColor3f(1, 1, 1);
+  for (int i = 0; i <= UNIT_WIDTH; i++) {
+    glVertex3f(i, 0, 0);
+    glVertex3f(i, UNIT_HEIGHT, 0);
+  }
+
+  for (int i = 0; i <= UNIT_HEIGHT; i++) {
+    glVertex3f(0, i, 0);
+    glVertex3f(UNIT_WIDTH, i, 0);
+  }
   glEnd();
 }
 
@@ -94,9 +110,10 @@ int main() {
   }
 
   Rectangle foreground(0, 0, UNIT_WIDTH, 6, 2);
-  Rectangle background(0, 0, UNIT_WIDTH, UNIT_HEIGTH, 90);
+  Rectangle background(0, 0, UNIT_WIDTH, UNIT_HEIGHT, 90);
 
-  Rectangle test(-8, -8, 4, 4, 3);
+  Obstacle obstacle(30, 8, 1, 1);
+  obstacle.setVelocity(1.0f);
 
   double dt, currentTime, lastTime = 0.0;
   // Main loop
@@ -108,11 +125,9 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0.0f, UNIT_WIDTH, 0.0f, UNIT_HEIGTH, 0.0f, 100.0f);
+    glOrtho(0.0f, UNIT_WIDTH, 0.0f, UNIT_HEIGHT, 0.0f, 100.0f);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
-    drawGizmo();
 
     glColor3fv(GREEN);
     foreground.draw();
@@ -121,7 +136,9 @@ int main() {
     background.draw();
 
     character.draw(dt);
+    obstacle.draw(dt);
 
+    drawGrid();
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
