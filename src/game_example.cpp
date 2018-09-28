@@ -1,12 +1,12 @@
 #include "helpers/shader.hpp"
 #include "objects/object.hpp"
+#include "objects/player.hpp"
 #include "objects/rectangle.hpp"
 #include <GLFW/glfw3.h>
 #include <cmath>
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
-#include "objects/player.hpp"
 using namespace std;
 
 GLuint WIDTH = 1280, HEIGHT = 720;
@@ -27,14 +27,14 @@ void frameBufferSizeCallback(GLFWwindow *window, int width, int height) {
   glViewport(0, 0, width, height);
 }
 
-void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-        character.startJump();
-    }
-    if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
-        character.endJump();
-    }
+void keyCallback(GLFWwindow *window, int key, int scancode, int action,
+                 int mods) {
+  if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+    character.startJump();
+  }
+  if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
+    character.endJump();
+  }
 }
 
 GLFWwindow *initGL() {
@@ -76,19 +76,16 @@ GLFWwindow *initGL() {
   return window;
 }
 
-
 void drawGizmo() {
-	glBegin(GL_LINES);
-	glColor3d(255,0,0);
-	glVertex3d(-UNIT_WIDTH, 0, 0);
-	glVertex3d(UNIT_WIDTH, 0, 0);
-	glColor3d(0, 255, 0);
-	glVertex3d(0, -UNIT_HEIGTH, 0);
-	glVertex3d(0, UNIT_HEIGTH, 0);
-	glEnd();
+  glBegin(GL_LINES);
+  glColor3d(255, 0, 0);
+  glVertex3d(-UNIT_WIDTH, 0, 0);
+  glVertex3d(UNIT_WIDTH, 0, 0);
+  glColor3d(0, 255, 0);
+  glVertex3d(0, -UNIT_HEIGTH, 0);
+  glVertex3d(0, UNIT_HEIGTH, 0);
+  glEnd();
 }
-
-
 
 int main() {
   GLFWwindow *window = initGL();
@@ -97,8 +94,9 @@ int main() {
   }
 
   Rectangle foreground(0, 0, UNIT_WIDTH, 6, 2);
+  Rectangle background(0, 0, UNIT_WIDTH, UNIT_HEIGTH, 90);
 
-  Rectangle test (-8,-8,4,4, 3);
+  Rectangle test(-8, -8, 4, 4, 3);
 
   double dt, currentTime, lastTime = 0.0;
   // Main loop
@@ -114,11 +112,13 @@ int main() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-
     drawGizmo();
 
     glColor3fv(GREEN);
     foreground.draw();
+
+    glColor3fv(BLUE);
+    background.draw();
 
     character.draw(dt);
 
