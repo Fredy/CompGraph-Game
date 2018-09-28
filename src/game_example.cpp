@@ -18,11 +18,23 @@ const float RED[] = {0.81f, 0.02f, 0.0f};
 const float BLACK[] = {0.0f, 0.0f, 0.0f};
 const float GREEN[] = {0.1f, 1.0f, 0.2f};
 
+Player character;
+
 void frameBufferSizeCallback(GLFWwindow *window, int width, int height) {
   cout << "Width and height: " << width << ", " << height << "\n";
   WIDTH = width;
   HEIGHT = height;
   glViewport(0, 0, width, height);
+}
+
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+        character.startJump();
+    }
+    if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
+        character.endJump();
+    }
 }
 
 GLFWwindow *initGL() {
@@ -50,6 +62,7 @@ GLFWwindow *initGL() {
 
   glfwMakeContextCurrent(window);
   glfwSetFramebufferSizeCallback(window, frameBufferSizeCallback);
+  glfwSetKeyCallback(window, keyCallback);
 
   // Glad initialization
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -84,12 +97,16 @@ int main() {
   }
 
   Rectangle foreground(0, 0, UNIT_WIDTH, 6, 2);
-  Player character;
 
   Rectangle test (-8,-8,4,4, 3);
 
+  double dt, currentTime, lastTime = 0.0;
   // Main loop
   while (!glfwWindowShouldClose(window)) {
+    currentTime = glfwGetTime();
+    dt = currentTime - lastTime;
+    lastTime = currentTime;
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -103,7 +120,7 @@ int main() {
     glColor3fv(GREEN);
     foreground.draw();
 
-    character.draw(0.0f);
+    character.draw(dt);
 
     glfwSwapBuffers(window);
     glfwPollEvents();
