@@ -22,6 +22,8 @@ De esta forma los obstáculos pueden ubicarse en el grid de manera sencilla.
 
 ## Aún más fácil
 
+Cargar todo el mapa al inicio, ya no es necesario el tiempo.
+
 `OBSTACLE_TYPE LEFT BOTTOM WIDTH HEIGHT`  
 Si el obstáculo ya tiene un tamaño (W x H) definido:  
 `OBSTACLE_TYPE LEFT BOTTOM `

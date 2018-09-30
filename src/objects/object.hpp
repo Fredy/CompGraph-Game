@@ -22,6 +22,8 @@ public:
     this->vertices = vertices;
   }
 
+  // This method shouldn't be used when drawing something that moves (or
+  // anything). Use draw(deltaTime) instead.
   void draw() {
     glBegin(mode);
     for (const auto &vertex : vertices)  {
