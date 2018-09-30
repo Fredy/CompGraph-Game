@@ -21,7 +21,7 @@ public:
     velocityX = velocity;
   }
 
-  void draw(float dt) {
+  void draw(float dt) override {
     positionX -= velocityX * dt;
 
     glPushMatrix();

@@ -112,8 +112,11 @@ int main() {
   Rectangle foreground(0, 0, UNIT_WIDTH, 6, 2);
   Rectangle background(0, 0, UNIT_WIDTH, UNIT_HEIGHT, 90);
 
-  Obstacle obstacle(30, 8, 1, 1);
+  Obstacle obstacle(64, 8, 1, 1);
+  Obstacle obstacle1(65, 8, 1, 1);
+
   obstacle.setVelocity(1.0f);
+  obstacle1.setVelocity(1.0f);
 
   double dt, currentTime, lastTime = 0.0;
   // Main loop
@@ -137,6 +140,7 @@ int main() {
 
     character.draw(dt);
     obstacle.draw(dt);
+    obstacle1.draw(dt);
 
     drawGrid();
     glfwSwapBuffers(window);

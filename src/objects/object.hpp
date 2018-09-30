@@ -31,4 +31,5 @@ public:
     glEnd();
   }
 
+  virtual void draw(float dt);
 };

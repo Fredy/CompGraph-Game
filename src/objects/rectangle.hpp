@@ -23,4 +23,5 @@ public:
   /* Draws the rectangle at (0, 0) */
   Rectangle(float width, float height, float depth)
       : Rectangle(-width / 2.0f, -height / 2.0f, width, height, depth) {}
+
 };

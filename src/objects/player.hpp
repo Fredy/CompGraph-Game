@@ -29,7 +29,7 @@ public:
     }
   }
 
-  void draw(float dt) {
+  void draw(float dt) override {
     velocityY -= gravity;
     positionY += velocityY * dt;
 
