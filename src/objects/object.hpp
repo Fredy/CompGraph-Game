@@ -33,5 +33,5 @@ public:
     glEnd();
   }
 
-  virtual void draw(float dt);
+  virtual void draw(float dt) { return; }
 };
