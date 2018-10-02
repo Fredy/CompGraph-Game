@@ -11,7 +11,7 @@
 using namespace std;
 
 GLuint WIDTH = 1280, HEIGHT = 720;
-float UNIT_WIDTH = 64.0f, UNIT_HEIGHT = 36.0f;
+float UNIT_WIDTH = 32.0f, UNIT_HEIGHT = 18.0f;
 
 const float BLUE[] = {0.16f, 0.23f, 0.88f};
 const float ORANGE[] = {1.0f, 0.67f, 0.0f};
@@ -109,11 +109,11 @@ int main() {
     return 1;
   }
 
-  Rectangle foreground(0, 0, UNIT_WIDTH, 6, 2);
+  Rectangle foreground(0, 0, UNIT_WIDTH, 3, 2);
   Rectangle background(0, 0, UNIT_WIDTH, UNIT_HEIGHT, 90);
 
-  Obstacle obstacle(64, 8, 1, 1);
-  Obstacle obstacle1(65, 8, 1, 1);
+  Obstacle obstacle(32, 4, 1, 1);
+  Obstacle obstacle1(33, 4, 1, 1);
 
   obstacle.setVelocity(1.0f);
   obstacle1.setVelocity(1.0f);
@@ -142,7 +142,7 @@ int main() {
     obstacle.draw(dt);
     obstacle1.draw(dt);
 
-    drawGrid();
+    //drawGrid();
     glfwSwapBuffers(window);
     glfwPollEvents();
   }

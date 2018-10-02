@@ -12,20 +12,20 @@ private:
   float gravity = 1.0f;
   bool onGround = true;
 
-  void fixPosition(bool isSliding = false) { glTranslatef(9.0f, 9.0f, 0.0f); }
+  void fixPosition(bool isSliding = false) { glTranslatef(4.5f, 4.5f, 0.0f); }
 
 public:
-  Player() : Rectangle(2.0f, 6.0f, 1.0f) {}
+  Player() : Rectangle(1.0f, 3.0f, 1.0f) {}
 
   void startJump() {
     if (onGround) {
-      velocityY = 24.0f;
+      velocityY = 18.0f;
       onGround = false;
     }
   }
   void endJump() {
-    if (velocityY > 12.0f) {
-      velocityY = 12.0f;
+    if (velocityY > 10.0f) {
+      velocityY = 10.0f;
     }
   }
 
