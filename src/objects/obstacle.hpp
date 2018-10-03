@@ -13,9 +13,8 @@ private:
   float positionX = 0.0f;
 
 public:
-  Obstacle(float left, float bottom, float width, float height,
-           float depth = 5.0f)
-      : Rectangle(left, bottom, width, height, depth) {}
+  Obstacle(float left, float bottom, float depth = 5.0f)
+      : Rectangle(left, bottom, 1, 1, depth) {}
 
   void setVelocity(float velocity) {
     velocityX = velocity;

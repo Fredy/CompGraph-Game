@@ -3,6 +3,7 @@
 #include "objects/player.hpp"
 #include "objects/rectangle.hpp"
 #include "objects/obstacle.hpp"
+#include "mapReader.hpp"
 #include <GLFW/glfw3.h>
 #include <cmath>
 #include <glad/glad.h>
@@ -112,11 +113,13 @@ int main() {
   Rectangle foreground(0, 0, comm::UNIT_WIDTH, 3, 2);
   Rectangle background(0, 0, comm::UNIT_WIDTH, comm::UNIT_HEIGHT, 90);
 
-  Obstacle obstacle(32, 4, 1, 1);
-  Obstacle obstacle1(33, 4, 1, 1);
+  //Obstacle obstacle(32, 4);
+  //Obstacle obstacle1(33, 4);
 
-  obstacle.setVelocity(1.0f);
-  obstacle1.setVelocity(1.0f);
+  //obstacle.setVelocity(1.0f);
+  //obstacle1.setVelocity(1.0f);
+  MapReader mapReader({"maps/tst.map"});
+  mapReader.load(0);
 
   double dt, currentTime, lastTime = 0.0;
   // Main loop
@@ -139,8 +142,9 @@ int main() {
     background.draw();
 
     character.draw(dt);
-    obstacle.draw(dt);
-    obstacle1.draw(dt);
+    //obstacle.draw(dt);
+    //obstacle1.draw(dt);
+    mapReader.drawMap(dt);
 
     //drawGrid();
     glfwSwapBuffers(window);

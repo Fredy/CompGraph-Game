@@ -1,3 +1,4 @@
+#pragma once
 
 namespace comm {
   const float UNIT_WIDTH = 32.0f, UNIT_HEIGHT = 18.0f;
