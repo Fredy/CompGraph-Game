@@ -25,13 +25,11 @@ public:
     }
     string line;
 
+    vector<string> rawMap;
+
     while (getline(file, line)) {
-      // `OBSTACLE_TYPE LEFT BOTTOM WIDTH HEIGHT`
-      // `OBSTACLE_TYPE LEFT BOTTOM `
-      istringstream stringstrm(line);
-      vector<string> params((istream_iterator<string>(stringstrm)),
-                            istream_iterator<string>());
-      // TODO: read params from vector params
+      rawMap.push_back(line);
+
     }
 
     file.close();

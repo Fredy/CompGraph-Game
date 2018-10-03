@@ -8,10 +8,10 @@
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
+#include "common.hpp"
 using namespace std;
 
 GLuint WIDTH = 1280, HEIGHT = 720;
-float UNIT_WIDTH = 32.0f, UNIT_HEIGHT = 18.0f;
 
 const float BLUE[] = {0.16f, 0.23f, 0.88f};
 const float ORANGE[] = {1.0f, 0.67f, 0.0f};
@@ -80,25 +80,25 @@ GLFWwindow *initGL() {
 void drawGizmo() {
   glBegin(GL_LINES);
   glColor3d(255, 0, 0);
-  glVertex3d(-UNIT_WIDTH, 0, 0);
-  glVertex3d(UNIT_WIDTH, 0, 0);
+  glVertex3d(-comm::UNIT_WIDTH, 0, 0);
+  glVertex3d(comm::UNIT_WIDTH, 0, 0);
   glColor3d(0, 255, 0);
-  glVertex3d(0, -UNIT_HEIGHT, 0);
-  glVertex3d(0, UNIT_HEIGHT, 0);
+  glVertex3d(0, -comm::UNIT_HEIGHT, 0);
+  glVertex3d(0, comm::UNIT_HEIGHT, 0);
   glEnd();
 }
 
 void drawGrid() {
   glBegin(GL_LINES);
   glColor3f(1, 1, 1);
-  for (int i = 0; i <= UNIT_WIDTH; i++) {
+  for (int i = 0; i <= comm::UNIT_WIDTH; i++) {
     glVertex3f(i, 0, 0);
-    glVertex3f(i, UNIT_HEIGHT, 0);
+    glVertex3f(i, comm::UNIT_HEIGHT, 0);
   }
 
-  for (int i = 0; i <= UNIT_HEIGHT; i++) {
+  for (int i = 0; i <= comm::UNIT_HEIGHT; i++) {
     glVertex3f(0, i, 0);
-    glVertex3f(UNIT_WIDTH, i, 0);
+    glVertex3f(comm::UNIT_WIDTH, i, 0);
   }
   glEnd();
 }
@@ -109,8 +109,8 @@ int main() {
     return 1;
   }
 
-  Rectangle foreground(0, 0, UNIT_WIDTH, 3, 2);
-  Rectangle background(0, 0, UNIT_WIDTH, UNIT_HEIGHT, 90);
+  Rectangle foreground(0, 0, comm::UNIT_WIDTH, 3, 2);
+  Rectangle background(0, 0, comm::UNIT_WIDTH, comm::UNIT_HEIGHT, 90);
 
   Obstacle obstacle(32, 4, 1, 1);
   Obstacle obstacle1(33, 4, 1, 1);
@@ -128,7 +128,7 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0.0f, UNIT_WIDTH, 0.0f, UNIT_HEIGHT, 0.0f, 100.0f);
+    glOrtho(0.0f, comm::UNIT_WIDTH, 0.0f, comm::UNIT_HEIGHT, 0.0f, 100.0f);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
