@@ -36,6 +36,13 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action,
   if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
     character.endJump();
   }
+  if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
+    character.endSlide();
+  }
+  if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
+    character.startSlide();
+  }
+    
 }
 
 GLFWwindow *initGL() {
@@ -142,7 +149,7 @@ int main() {
     obstacle.draw(dt);
     obstacle1.draw(dt);
 
-    //drawGrid();
+    drawGrid();
     glfwSwapBuffers(window);
     glfwPollEvents();
   }

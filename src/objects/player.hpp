@@ -11,8 +11,10 @@ private:
   float velocityY = 0.0f;
   float gravity = 1.0f;
   bool onGround = true;
+  bool isSlide = false;
+  float degree = 0;
 
-  void fixPosition(bool isSliding = false) { glTranslatef(4.5f, 4.5f, 0.0f); }
+  void fixPosition(bool isSliding = false) { glTranslatef(4.5f, 4.5f, 0.0f); } 
 
 public:
   Player() : Rectangle(1.0f, 3.0f, 1.0f) {}
@@ -29,6 +31,13 @@ public:
     }
   }
 
+  void startSlide(){
+    isSlide = true;
+  }
+  void endSlide(){
+    isSlide = false;
+  }
+
   void draw(float dt) override {
     velocityY -= gravity;
     positionY += velocityY * dt;
@@ -39,11 +48,24 @@ public:
       velocityY = 0.0;
       onGround = true;
     }
+    
+    
 
     glPushMatrix();
     fixPosition();
     glTranslatef(0.0f, positionY, 0.0f);
-
+    if (isSlide){   
+      if(degree<90){
+      degree+=10;   
+      }   
+      glRotatef(degree,0,0,1);
+      glTranslatef(-1.0f, 0.0f, 0.0f);
+    }else{
+      if (degree > 0){
+      degree-=10;
+      glRotatef(degree,0,0,1);
+      }
+    }
     glColor3fv(black);
     draw();
 
