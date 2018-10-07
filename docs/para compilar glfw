@@ -1,3 +1,0 @@
-g++ -std=c++11 -c game_openGl2.cpp
-g++ game_openGl2.o -o game_openGl2.exec -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor
-./game_openGl2.exec
