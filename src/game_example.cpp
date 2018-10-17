@@ -196,7 +196,8 @@ int main() {
     background.basicDraw();
 
     character.draw(dt);
-    mapReader.drawMap(dt);
+
+    mapReader.updateMap(dt, character);
 
     // drawGrid();
     glfwSwapBuffers(window);

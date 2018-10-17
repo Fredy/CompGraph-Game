@@ -2,6 +2,8 @@
 
 #include "rectangle.hpp"
 
+const float PLAYER_FIX_POS = 4.5f;
+
 class Player : public Rectangle {
 private:
   float black[3] = {0.0f, 0.0f, 0.0f};
@@ -11,8 +13,9 @@ private:
   bool onGround = true;
   bool isSliding = false;
   float degree = 0.0f;
+  float ground = 0.0f;
 
-  void fixPosition() { glTranslatef(4.5f, 4.5f, 0.0f); }
+  void fixPosition() { glTranslatef(PLAYER_FIX_POS, PLAYER_FIX_POS, 0.0f); }
 
   void doSlide(float dt) {
     if (isSliding) {
@@ -20,11 +23,15 @@ private:
         degree += 10.0f;
       }
       glRotatef(degree, 0, 0, 1);
+      left = PLAYER_FIX_POS + 0.5f;
+      bottom = ground + 1.0f;
       glTranslatef(-1.0f, 0.0f, 0.0f);
     } else {
       if (degree > 0.0f) {
         degree -= 10.0f;
         glRotatef(degree, 0, 0, 1);
+        left = PLAYER_FIX_POS - 0.5f;
+        bottom = -height / 2.0f + PLAYER_FIX_POS;
       }
     }
   }
@@ -32,10 +39,10 @@ private:
   void doJump(float dt) {
     velocityY -= gravity;
     positionY += velocityY * dt;
-
-    if (positionY < 0.0f) { // TODO: if the player is on a platform this must be
-                            // the heigth of the platform
-      positionY = 0.0f;
+    bottom = positionY + PLAYER_FIX_POS - height / 2.0;
+    if (positionY < ground) {
+      positionY = ground;
+      bottom = positionY + PLAYER_FIX_POS - height / 2.0;
       velocityY = 0.0;
       onGround = true;
     }
@@ -43,7 +50,10 @@ private:
   }
 
 public:
-  Player() : Rectangle(1.0f, 3.0f, 1.0f) {}
+  Player() : Rectangle(1.0f, 3.0f, 1.0f) {
+    bottom = PLAYER_FIX_POS - height / 2.0;
+    left = PLAYER_FIX_POS - width / 2.0f;
+  }
 
   void startJump() {
     if (onGround and !isSliding) {
@@ -65,6 +75,8 @@ public:
   void draw(float dt) override {
     // Everything that needs a tranformation must go inside glPushMatrix() and
     // glPopMatrix()
+
+    cout << "B: " << bottom << " L: " << left << endl;
     glPushMatrix();
 
     doJump(dt);
@@ -76,4 +88,14 @@ public:
 
     glPopMatrix();
   }
+
+  float getBottom() const { return bottom; }
+
+  float getLeft() const  { return left; }
+
+  float getRight() const { return left + width; }
+
+  float getUp() const { return bottom + height; }
+
+  void setGround(float ground) { this->ground = ground; }
 };

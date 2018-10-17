@@ -2,6 +2,7 @@
 
 #include "common.hpp"
 #include "objects/obstacle.hpp"
+#include "objects/player.hpp"
 #include <fstream>
 #include <iterator>
 #include <sstream>
@@ -22,7 +23,7 @@ private:
       break;
     case comm::ObstacleType::block:
       obstacle = new Obstacle(left, bottom); // TODO: this is temporal
-      obstacle->setVelocity(2.0f);
+      obstacle->setVelocity(5.0f);
       break;
     case comm::ObstacleType::hole:
       break;
@@ -80,9 +81,11 @@ public:
     file.close();
   }
 
-  void drawMap(float dt) {
+  void updateMap(float dt, const Player &player) {
     for (const auto &i : loadedMap) {
       i->draw(dt);
+      i->checkCollision(player.getLeft(), player.getBottom(), player.getRight(),
+                        player.getUp());
     }
   }
 };
