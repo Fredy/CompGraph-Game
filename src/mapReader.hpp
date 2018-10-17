@@ -1,5 +1,6 @@
 #pragma once
 
+#include "common.hpp"
 #include "objects/obstacle.hpp"
 #include <fstream>
 #include <iterator>
@@ -7,7 +8,6 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include "common.hpp"
 using namespace std;
 
 class MapReader {
@@ -16,24 +16,24 @@ private:
   vector<Obstacle *> loadedMap;
 
   Obstacle *createObstacle(comm::ObstacleType type, float left, float bottom) {
-    Obstacle *obstacle = nullptr;    
+    Obstacle *obstacle = nullptr;
     switch (type) {
-      case comm::ObstacleType::rock :
-        break;
-      case comm::ObstacleType::block :
-        obstacle = new Obstacle(left, bottom);// TODO: this is temporal
-        obstacle->setVelocity(2.0f);
-        break;
-      case comm::ObstacleType::hole :
-        break;
-      case comm::ObstacleType::fireBall :
-        break;
-      case comm::ObstacleType::wall :
-        break;
-      case comm::ObstacleType::box :
-        break;
-      default:
-        break;
+    case comm::ObstacleType::rock:
+      break;
+    case comm::ObstacleType::block:
+      obstacle = new Obstacle(left, bottom); // TODO: this is temporal
+      obstacle->setVelocity(2.0f);
+      break;
+    case comm::ObstacleType::hole:
+      break;
+    case comm::ObstacleType::fireBall:
+      break;
+    case comm::ObstacleType::wall:
+      break;
+    case comm::ObstacleType::box:
+      break;
+    default:
+      break;
     }
     return obstacle;
   }
@@ -44,7 +44,6 @@ private:
     }
     loadedMap.clear();
   }
-
 
 public:
   MapReader(vector<string> fileNames) { this->fileNames = fileNames; }
@@ -65,13 +64,14 @@ public:
 
     while (getline(file, line)) {
       auto pos = string::npos;
-      int bottom =  height - hCount;
+      int bottom = height - hCount;
       while (true) {
         pos = line.find_first_not_of(' ', pos + 1);
         if (pos == string::npos) {
           break;
         }
-        Obstacle *obstacle = createObstacle(comm::ObstacleType(line[pos]), comm::UNIT_WIDTH + pos, bottom);
+        Obstacle *obstacle = createObstacle(comm::ObstacleType(line[pos]),
+                                            comm::UNIT_WIDTH + pos, bottom);
         loadedMap.push_back(obstacle);
       }
 
@@ -85,5 +85,4 @@ public:
       i->draw(dt);
     }
   }
-
 };

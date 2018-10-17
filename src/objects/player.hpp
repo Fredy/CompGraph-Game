@@ -4,8 +4,6 @@
 
 class Player : public Rectangle {
 private:
-  using Rectangle::draw;
-
   float black[3] = {0.0f, 0.0f, 0.0f};
   float positionY = 0.0f;
   float velocityY = 0.0f;
@@ -74,7 +72,7 @@ public:
     doSlide(dt);
 
     glColor3fv(black);
-    draw();
+    basicDraw();
 
     glPopMatrix();
   }
