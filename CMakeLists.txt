@@ -11,11 +11,11 @@ option(GLFW_BUILD_EXAMPLES OFF)
 option(GLFW_BUILD_TESTS OFF)
 add_subdirectory(vendor/glfw)
 
-# Warning Flags
+# Warning Flags and other libs for Glad
 if(MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
     if(NOT WIN32)
         set(GLAD_LIBRARIES dl)
     endif()
@@ -35,9 +35,9 @@ set(GLAD_SRC vendor/glad/src/glad.c
 add_library(glad STATIC ${GLAD_SRC})
 
 # Helpers sources
-set(HELPERS_SRC src/helpers/shader.hpp
-                src/helpers/object.hpp
-                src/helpers/objloader.cpp src/helpers/objloader.hpp)
+set(SOURCE src/helpers/shader.hpp
+                src/helpers/objloader.cpp src/helpers/objloader.hpp
+                src/objects/object.hpp)
 
 # Libraries
 find_package(OpenGL REQUIRED)
@@ -45,9 +45,8 @@ set(ALL_LIBS OpenGL::GL glfw ${GLFW_LIBRARIES} glad ${GLAD_LIBRARIES})
 
 # Executables
 
-add_executable(example src/example.cpp ${HELPERS_SRC})
-target_link_libraries(example PUBLIC  ${ALL_LIBS})
-
+add_executable(game_example src/game_example.cpp ${SOURCE})
+target_link_libraries(game_example PUBLIC  ${ALL_LIBS})
 
 ######
 
