@@ -24,9 +24,8 @@ public:
       : Rectangle(left, bottom, 1, 1, depth) {
         borders[0] = left ;
         borders[1] = bottom;
-        borders[2] = bottom+1;
-        borders[3] = left+1;
-        for(int i = 0; i<4;i++){colliders[i] = false;}
+        borders[2] = bottom+1.f;
+        borders[3] = left+1.0f;
       }
 
   void setVelocity(float velocity) {
@@ -35,13 +34,14 @@ public:
   
   void checkObsCollision(float otherLeft, float otherBottom, float otherRight,
                    float otherUp){
-    //still debugging        
-    // for(int i = 0; i<4;i++){cout<<colliders[i];}
-    //cout<<onCollision<<" "<<"l: "<<borders[1] <<" oU: "<<otherUp<<" oB: "<<otherBottom<<"\n";  
+    for(int i = 0; i<4;i++){colliders[i] = false;}
+    //for debugging           
+    //cout<<onCollision<<" "<<"b: "<<borders[1] <<" U: "<<borders[2] <<" oU: "<<otherUp<<" oB: "<<otherBottom<<" l: "<<borders[0] <<" r: "<<borders[3] <<" oL: "<<otherLeft<<" oR: "<<otherRight<<"\n";  
     if( borders[0]<=otherRight){colliders[0] = true;} // rightCollision
-    if( borders[1]<otherUp){colliders[1] = true;} else{colliders[1] = false;} //upCollision
-    if( borders[2]>=otherBottom){colliders[2] = true;} else{colliders[2] = false;} //downCollision
-    if (colliders[0] && colliders[1] && colliders[2] ){onCollision=true;}    
+    if( borders[1]<otherUp){colliders[1] = true;}  //upCollision
+    if( borders[2]>=otherBottom){colliders[2] = true;}  //downCollision
+    if( borders[3]>otherLeft){colliders[3] = true;} // leftCollision
+    if (colliders[0] && colliders[1] && colliders[2]&& colliders[3] ){onCollision=true;}  
   }
   
   void action(){
@@ -55,6 +55,7 @@ public:
   void draw(float dt) override {
     positionX -= velocityX * dt;
     borders[0] -= velocityX * dt;
+    borders[3] -= velocityX * dt;
     glPushMatrix();
     //fixPosition();
     glTranslatef(positionX, 0.0f, 0.0f);

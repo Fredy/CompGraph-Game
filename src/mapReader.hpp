@@ -22,7 +22,7 @@ private:
         break;
       case comm::ObstacleType::block :
         obstacle = new Obstacle(left, bottom);// TODO: this is temporal
-        obstacle->setVelocity(2.0f);
+        obstacle->setVelocity(5.0f);
         break;
       case comm::ObstacleType::hole :
         break;
