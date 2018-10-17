@@ -9,7 +9,7 @@
 #include <vector>
 #include "common.hpp"
 using namespace std;
-
+int j = 1;
 class MapReader {
 private:
   vector<string> fileNames;
@@ -83,6 +83,14 @@ public:
   void drawMap(float dt) {
     for (const auto &i : loadedMap) {
       i->draw(dt);
+    }
+  }
+  
+  void checkCollision(Player player){
+    
+    for (const auto &i : loadedMap) {
+      i->checkObsCollision(player.getLeft(), player.getBottom(),
+                           player.getRight(), player.getUp()) ;
     }
   }
 
