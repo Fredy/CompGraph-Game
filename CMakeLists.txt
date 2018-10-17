@@ -37,6 +37,7 @@ add_library(glad STATIC ${GLAD_SRC})
 # Helpers sources
 set(SOURCE src/helpers/shader.hpp
            src/helpers/objloader.cpp src/helpers/objloader.hpp
+           src/helpers/texture.cpp src/helpers/texture.hpp
            src/objects/object.hpp
            src/imgDummy.cpp)
 

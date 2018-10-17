@@ -4,10 +4,10 @@
 1. ~~Personaje y el escenario.~~
 2. Movimiento del escenario:
   * Poner en el fondo imagen larga que se va a repetir (u objetos generados aleatoriamente).
-  * Hacer que un objeto se muevan en el escenario.
+  * ~~Hacer que un objeto se muevan en el escenario.~~
 3. Movimientos del personajes: 
   * ~~Hacer salto (bonito).~~
-  * Hacer que se agache (cambiarlo de sentido).
+  * ~~Hacer que se agache (cambiarlo de sentido).~~
   * Asignar botones: protegerse y pegar.
 4. Poner obstaculos en el piso.
   * Crear lector del escenario dinamico:

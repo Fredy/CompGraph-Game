@@ -14,7 +14,7 @@ private:
 protected:
   // This method shouldn't be used when drawing something that moves (or
   // anything). Use draw(deltaTime) instead.
-  void basicDraw(GLuint texture = 0) {
+  void draw(GLuint texture = 0) {
     glBindTexture(GL_TEXTURE_2D, texture);
     glBegin(mode);
     for (size_t i = 0; i < vertices.size(); i++) {
@@ -47,5 +47,5 @@ public:
     this->texCoords = texCoords;
   }
 
-  virtual void draw(float dt) { return; }
+  virtual void update(float dt) {}
 };

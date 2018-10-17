@@ -6,19 +6,12 @@
 #include <cmath>
 #include <glad/glad.h>
 #include <iostream>
-#include <stb_image.h>
+#include "helpers/texture.hpp"
 using namespace std;
 
 GLuint WIDTH = 1280, HEIGHT = 720;
 
-const float BLUE[] = {0.298f, 0.686f, 1.0f};
-const float ORANGE[] = {1.0f, 0.67f, 0.0f};
-const float RED[] = {0.81f, 0.02f, 0.0f};
-const float BLACK[] = {0.0f, 0.0f, 0.0f};
-const float WHITE[] = {1.0f, 1.0f, 1.0f, 1.0f};
-const float GREEN[] = {0.1f, 1.0f, 0.2f};
-
-Player character;
+Player player;
 
 void frameBufferSizeCallback(GLFWwindow *window, int width, int height) {
   cout << "Width and height: " << width << ", " << height << "\n";
@@ -30,17 +23,17 @@ void frameBufferSizeCallback(GLFWwindow *window, int width, int height) {
 void keyCallback(GLFWwindow *window, int key, int scancode, int action,
                  int mods) {
   if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-    character.startJump();
+    player.startJump();
   }
   if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
-    character.endJump();
+    player.endJump();
   }
   if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
-    character.startSlide();
-    character.earlyEndJump();
+    player.startSlide();
+    player.earlyEndJump();
   }
   if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE) {
-    character.endSlide();
+    player.endSlide();
   }
 }
 
@@ -124,52 +117,9 @@ int main() {
   mapReader.load(0);
 
   /// TEXTURE ////
-  stbi_set_flip_vertically_on_load(true);
-  GLuint texture;
-  glGenTextures(1, &texture);
-  glBindTexture(GL_TEXTURE_2D, texture);
-  // set the texture wrapping/filtering options (on the currently bound texture
-  // object)
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  // load and generate the texture
-  int width, height, nrChannels;
-  unsigned char *data =
-      stbi_load("textures/floor.png", &width, &height, &nrChannels, 0);
-  if (data) {
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA,
-                 GL_UNSIGNED_BYTE, data);
-    // glGenerateMipmap(GL_TEXTURE_2D);
-  } else {
-    cout << "Failed to load texture" << endl;
-  }
-  stbi_image_free(data);
-  /// TEXTURE ////
+  GLuint texture = texture::load("textures/floor.png");
 
-  /// TEXTURE ////
-  stbi_set_flip_vertically_on_load(true);
-  GLuint texture1;
-  glGenTextures(1, &texture1);
-  glBindTexture(GL_TEXTURE_2D, texture1);
-  // set the texture wrapping/filtering options (on the currently bound texture
-  // object)
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  // load and generate the texture
-  data = stbi_load("textures/wall2.png", &width, &height, &nrChannels, 0);
-  if (data) {
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA,
-                 GL_UNSIGNED_BYTE, data);
-    // glGenerateMipmap(GL_TEXTURE_2D);
-  } else {
-    cout << "Failed to load texture" << endl;
-  }
-  stbi_image_free(data);
-  /// TEXTURE ////
+  GLuint texture1 = texture::load("textures/wall1.png");
 
   double dt, currentTime, lastTime = 0.0;
   // Main loop
@@ -185,15 +135,15 @@ int main() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    glColor4fv(WHITE);
-    foreground.basicDraw(texture);
+    glColor3fv(comm::color::WHITE);
+    foreground.draw(texture);
 
-    glColor3fv(BLUE);
-    background.basicDraw();
+    glColor3fv(comm::color::LIGHT_BLUE);
+    background.draw();
 
-    character.draw(dt);
 
-    mapReader.updateMap(dt, character);
+    mapReader.updateMap(dt, player);
+    player.update(dt);
 
     // drawGrid();
     glfwSwapBuffers(window);
