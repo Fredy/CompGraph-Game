@@ -28,13 +28,12 @@ private:
 
 public:
   Obstacle(float left, float bottom, float depth = 5.0f)
-      : Rectangle(left, bottom, 1, 1, depth) {
-  }
+      : Rectangle(left, bottom, 1, 1, depth) {}
 
   void setVelocity(float velocity) { velocityX = velocity; }
 
   void checkCollision(float otherLeft, float otherBottom, float otherRight,
-                         float otherTop) {
+                      float otherTop) {
     colliders.allFalse();
     onCollision = false;
     if (left <= otherRight) {

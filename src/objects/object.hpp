@@ -1,8 +1,8 @@
 #pragma once
 
+#include <array>
 #include <glad/glad.h>
 #include <vector>
-#include <array>
 using namespace std;
 
 class Object {
@@ -26,7 +26,7 @@ public:
   // anything). Use draw(deltaTime) instead.
   void draw() {
     glBegin(mode);
-    for (const auto &vertex : vertices)  {
+    for (const auto &vertex : vertices) {
       glVertex3f(vertex[0], vertex[1], vertex[2]);
       // glVertex3fv(vertex.data());
     }
