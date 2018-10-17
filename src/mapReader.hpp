@@ -80,18 +80,12 @@ public:
     file.close();
   }
 
-  void drawMap(float dt) {
+  void updateMap(float dt, const Player &player) {
     for (const auto &i : loadedMap) {
       i->draw(dt);
-    }
-  }
-  
-  void checkCollision(Player player){
-    
-    for (const auto &i : loadedMap) {
-      i->checkObsCollision(player.getLeft(), player.getBottom(),
+      i->checkCollision(player.getLeft(), player.getBottom(),
                            player.getRight(), player.getUp()) ;
     }
   }
-
+  
 };

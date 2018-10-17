@@ -2,7 +2,7 @@
 
 #include "rectangle.hpp"
 
-const float fixPos = 4.5f;
+const float PLAYER_FIX_POS = 4.5f;
 
 class Player : public Rectangle {
 private:
@@ -15,12 +15,9 @@ private:
   bool onGround = true;
   bool isSliding = false;
   float degree = 0.0f;
-  float width;
-  float height;
-  float bottom;
-  float left;
-  float ground = 0.0f;  
-  void fixPosition() { glTranslatef(fixPos, fixPos, 0.0f); }
+  float ground = 0.0f;
+
+  void fixPosition() { glTranslatef(PLAYER_FIX_POS, PLAYER_FIX_POS, 0.0f); }
 
   void doSlide(float dt) {
     if (isSliding) {
@@ -28,15 +25,15 @@ private:
         degree += 10.0f;
       }
       glRotatef(degree, 0, 0, 1);
-      left = fixPos+0.5f;
-      bottom = ground + 1.0f;      
+      left = PLAYER_FIX_POS + 0.5f;
+      bottom = ground + 1.0f;
       glTranslatef(-1.0f, 0.0f, 0.0f);
     } else {
       if (degree > 0.0f) {
         degree -= 10.0f;
         glRotatef(degree, 0, 0, 1);
-        left = fixPos-0.5f;
-        bottom = -height/ 2.0f + fixPos;
+        left = PLAYER_FIX_POS - 0.5f;
+        bottom = -height / 2.0f + PLAYER_FIX_POS;
       }
     }
   }
@@ -44,24 +41,20 @@ private:
   void doJump(float dt) {
     velocityY -= gravity;
     positionY += velocityY * dt;
-    bottom += positionY;
-    if (positionY < ground) { // TODO: if the player is on a platform this must be
-                            // the heigth of the platform
+    bottom = positionY + PLAYER_FIX_POS - height / 2.0;
+    if (positionY < ground) {
       positionY = ground;
-      bottom = -height/ 2.0f + fixPos;
+      bottom = positionY + PLAYER_FIX_POS - height / 2.0;
       velocityY = 0.0;
       onGround = true;
     }
-    
     glTranslatef(0.0f, positionY, 0.0f);
   }
 
 public:
   Player() : Rectangle(1.0f, 3.0f, 1.0f) {
-    width = 1.0f;
-    height = 3.0f;    
-    bottom = -height/ 2.0f + fixPos;
-    left = -width / 2.0f + fixPos;
+    bottom = PLAYER_FIX_POS - height / 2.0;
+    left = PLAYER_FIX_POS - width / 2.0f;
   }
 
   void startJump() {
@@ -84,6 +77,8 @@ public:
   void draw(float dt) override {
     // Everything that needs a tranformation must go inside glPushMatrix() and
     // glPopMatrix()
+
+    cout << "B: " << bottom << " L: " << left << endl;
     glPushMatrix();
 
     doJump(dt);
@@ -96,11 +91,13 @@ public:
     glPopMatrix();
   }
 
-  float getBottom(){ return bottom;}
+  float getBottom() const { return bottom; }
 
-  float getLeft(){ return left;} 
-  
-  float getRight(){ return left + width;}
+  float getLeft() const  { return left; }
 
-  float getUp(){ return bottom + height;}
+  float getRight() const { return left + width; }
+
+  float getUp() const { return bottom + height; }
+
+  void setGround(float ground) { this->ground = ground; }
 };

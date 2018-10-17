@@ -1,8 +1,17 @@
 #pragma once
 
-#include "rectangle.hpp"
 #include "common.hpp"
+#include "rectangle.hpp"
 #include <math.h>
+
+struct Colliders {
+  bool left;
+  bool right;
+  bool top;
+  bool bottom;
+
+  void allFalse() { left = right = top = bottom = false; }
+};
 
 class Obstacle : public Rectangle {
   // TODO: check if every obstacle is an rectangle, this is important for
@@ -14,56 +23,60 @@ private:
   const float red[3] = {1.0f, 0.0f, 0.0f};
   float velocityX;
   float positionX = 0.0f;
-  float borders[4]; //left,bottom,right,up 
-  bool colliders[4];  
+  Colliders colliders;
   bool onCollision = false;
 
 public:
-  
   Obstacle(float left, float bottom, float depth = 5.0f)
       : Rectangle(left, bottom, 1, 1, depth) {
-        borders[0] = left ;
-        borders[1] = bottom;
-        borders[2] = bottom+1.f;
-        borders[3] = left+1.0f;
-      }
+  }
 
-  void setVelocity(float velocity) {
-    velocityX = velocity;
+  void setVelocity(float velocity) { velocityX = velocity; }
+
+  void checkCollision(float otherLeft, float otherBottom, float otherRight,
+                         float otherTop) {
+    colliders.allFalse();
+    onCollision = false;
+    if (left <= otherRight) {
+      // rightCollision
+      colliders.left = true;
+    }
+    if (bottom < otherTop) {
+      // topCollision
+      colliders.bottom = true;
+    }
+    if (bottom + height >= otherBottom) {
+      // downCollision
+      colliders.top = true;
+    }
+    if (left + width > otherLeft) {
+      // leftCollision
+      colliders.right = true;
+    }
+    if (colliders.left && colliders.top && colliders.right &&
+        colliders.bottom) {
+      onCollision = true;
+    }
   }
-  
-  void checkObsCollision(float otherLeft, float otherBottom, float otherRight,
-                   float otherUp){
-    for(int i = 0; i<4;i++){colliders[i] = false;}
-    //for debugging           
-    //cout<<onCollision<<" "<<"b: "<<borders[1] <<" U: "<<borders[2] <<" oU: "<<otherUp<<" oB: "<<otherBottom<<" l: "<<borders[0] <<" r: "<<borders[3] <<" oL: "<<otherLeft<<" oR: "<<otherRight<<"\n";  
-    if( borders[0]<=otherRight){colliders[0] = true;} // rightCollision
-    if( borders[1]<otherUp){colliders[1] = true;}  //upCollision
-    if( borders[2]>=otherBottom){colliders[2] = true;}  //downCollision
-    if( borders[3]>otherLeft){colliders[3] = true;} // leftCollision
-    if (colliders[0] && colliders[1] && colliders[2]&& colliders[3] ){onCollision=true;}  
-  }
-  
-  void action(){
-    if(onCollision){
+
+  void action() {
+    if (onCollision) {
       glColor3fv(red);
-    }else{
+    } else {
       glColor3fv(orange);
     }
   }
 
   void draw(float dt) override {
     positionX -= velocityX * dt;
-    borders[0] -= velocityX * dt;
-    borders[3] -= velocityX * dt;
+    left -= velocityX * dt;
+
     glPushMatrix();
-    //fixPosition();
     glTranslatef(positionX, 0.0f, 0.0f);
 
-    action();   
+    action();
     draw();
 
     glPopMatrix();
   }
-
 };

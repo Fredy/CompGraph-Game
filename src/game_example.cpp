@@ -152,8 +152,7 @@ int main() {
     character.draw(dt);
     //obstacle.draw(dt);
     //obstacle1.draw(dt);
-    mapReader.drawMap(dt);
-    mapReader.checkCollision(character);
+    mapReader.updateMap(dt, character);
 
     drawGrid();
     glfwSwapBuffers(window);
