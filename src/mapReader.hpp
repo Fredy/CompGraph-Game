@@ -9,7 +9,7 @@
 #include <vector>
 #include "common.hpp"
 using namespace std;
-
+int j = 1;
 class MapReader {
 private:
   vector<string> fileNames;
@@ -22,7 +22,7 @@ private:
         break;
       case comm::ObstacleType::block :
         obstacle = new Obstacle(left, bottom);// TODO: this is temporal
-        obstacle->setVelocity(2.0f);
+        obstacle->setVelocity(5.0f);
         break;
       case comm::ObstacleType::hole :
         break;
@@ -80,10 +80,12 @@ public:
     file.close();
   }
 
-  void drawMap(float dt) {
+  void updateMap(float dt, const Player &player) {
     for (const auto &i : loadedMap) {
       i->draw(dt);
+      i->checkCollision(player.getLeft(), player.getBottom(),
+                           player.getRight(), player.getUp()) ;
     }
   }
-
+  
 };
