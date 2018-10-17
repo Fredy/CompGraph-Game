@@ -1,6 +1,8 @@
 #pragma once
 
 #include "rectangle.hpp"
+#include <iostream>
+using namespace std;
 
 const float PLAYER_FIX_POS = 4.5f;
 
@@ -91,7 +93,7 @@ public:
 
   float getBottom() const { return bottom; }
 
-  float getLeft() const  { return left; }
+  float getLeft() const { return left; }
 
   float getRight() const { return left + width; }
 

@@ -1,14 +1,10 @@
 #include "common.hpp"
-#include "helpers/shader.hpp"
 #include "mapReader.hpp"
-#include "objects/object.hpp"
-#include "objects/obstacle.hpp"
 #include "objects/player.hpp"
 #include "objects/rectangle.hpp"
 #include <GLFW/glfw3.h>
 #include <cmath>
 #include <glad/glad.h>
-#include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <stb_image.h>
 using namespace std;

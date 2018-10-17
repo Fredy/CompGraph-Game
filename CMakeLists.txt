@@ -36,9 +36,9 @@ add_library(glad STATIC ${GLAD_SRC})
 
 # Helpers sources
 set(SOURCE src/helpers/shader.hpp
-                src/helpers/objloader.cpp src/helpers/objloader.hpp
-                src/objects/object.hpp
-                src/imgDummy.cpp)
+           src/helpers/objloader.cpp src/helpers/objloader.hpp
+           src/objects/object.hpp
+           src/imgDummy.cpp)
 
 # Libraries
 find_package(OpenGL REQUIRED)
@@ -46,8 +46,8 @@ set(ALL_LIBS OpenGL::GL glfw ${GLFW_LIBRARIES} glad ${GLAD_LIBRARIES})
 
 # Executables
 
-add_executable(game_example src/game_example.cpp ${SOURCE})
-target_link_libraries(game_example PUBLIC  ${ALL_LIBS})
+add_executable(game src/game.cpp ${SOURCE})
+target_link_libraries(game PUBLIC  ${ALL_LIBS})
 
 ######
 

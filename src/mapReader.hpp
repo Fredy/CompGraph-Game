@@ -1,7 +1,7 @@
 #pragma once
 
 #include "common.hpp"
-#include "objects/obstacle.hpp"
+#include "objects/obstacles/obstacle.hpp"
 #include "objects/player.hpp"
 #include <fstream>
 #include <iterator>
