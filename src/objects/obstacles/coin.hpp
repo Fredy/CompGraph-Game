@@ -14,7 +14,7 @@ public:
     const float top = bottom + height;
     if (onCollision) {
       if (isInsideHorizontal(player.getLeft(), player.getRight())) {
-          glColor3fv(comm::color::GREEN);
+        setTextureId(texture::load(config::invisibleTexturePath));
       } else if (isInsideVertical(player.getBottom(), player.getTop())) {
         if (left <= player.getRight()) {
           // Player is in the right side of the obstacle
