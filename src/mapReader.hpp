@@ -3,6 +3,7 @@
 #include "common.hpp"
 #include "objects/obstacles/block.hpp"
 #include "objects/obstacles/coin.hpp"
+#include "objects/obstacles/fireball.hpp"
 #include "objects/obstacles/hole.hpp"
 #include "objects/obstacles/obstacle.hpp"
 #include "objects/obstacles/rock.hpp"
@@ -34,7 +35,10 @@ private:
     case comm::ObstacleType::hole:
       obstacle = new Hole(left, bottom);
       obstacle->setVelocity(5.0f);
+      break;
     case comm::ObstacleType::fireBall:
+      obstacle = new FireBall(left, bottom);
+      obstacle->setVelocity(8.0f);
       break;
     case comm::ObstacleType::box:
       break;

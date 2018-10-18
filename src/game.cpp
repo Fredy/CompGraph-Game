@@ -135,16 +135,16 @@ int main() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
+    player.update(dt);
     glColor3fv(comm::color::WHITE);
-    foreground.update();
+    foreground.update(dt, player);
 
     background.update(dt);
 
 
     mapReader.updateMap(dt, player);
-    player.update(dt);
 
-    // drawGrid();
+     drawGrid();
     glfwSwapBuffers(window);
     glfwPollEvents();
   }

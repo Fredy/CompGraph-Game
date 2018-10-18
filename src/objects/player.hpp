@@ -9,10 +9,10 @@ using namespace std;
 class Player : public Rectangle {
 private:
   const float PLAYER_FIX_POS = 4.5f;
-  float positionY = 0.0f;
-  float velocityY = 0.0f;
+  mutable float positionY = 0.0f;
+  mutable float velocityY = 0.0f;
   float gravity = 1.0f;
-  bool onGround = true;
+  mutable bool onGround = true;
   bool isSliding = false;
   float degree = 0.0f;
   mutable float ground = 0.0f;
@@ -20,14 +20,16 @@ private:
   void fixPosition() { glTranslatef(PLAYER_FIX_POS, PLAYER_FIX_POS, 0.0f); }
 
   void doSlide(float dt) {
+    // cout << "L: " << left << " B: " << bottom<< " ";
+    // cout << "H: " << height << " W: " << width<< " G:" << ground <<  endl;
     if (isSliding) {
       if (degree < 90.0f) {
         degree += 10.0f;
       }
       glRotatef(degree, 0, 0, 1);
-      left = PLAYER_FIX_POS + width / 2.0f;
-      bottom = ground + 1.0f;
-      height = 1.0f;
+      left = 3.0f;//PLAYER_FIX_POS + width / 2.0f;
+      bottom = 3.0f + ground;//ground + 1.0f;
+      height = 0.0f; // TODO: fix this!
       width = 3.0f;
       glTranslatef(-1.0f, 0.0f, 0.0f);
     } else {
@@ -35,7 +37,7 @@ private:
         degree -= 10.0f;
         glRotatef(degree, 0, 0, 1);
         left = PLAYER_FIX_POS - width / 2.0f;
-        bottom = -height / 2.0f + PLAYER_FIX_POS;
+        bottom = -height / 2.0f + PLAYER_FIX_POS + positionY;
         height = 3.0f;
         width = 1.0f;
       }
@@ -45,14 +47,13 @@ private:
   void doJump(float dt) {
     velocityY -= gravity;
     positionY += velocityY * dt;
-    if (positionY < ground) {
-      positionY = ground;
+    /*if (positionY < ground) {
+      positionY = 0.0f;
       velocityY = 0.0;
       onGround = true;
-    }
-    bottom = positionY + PLAYER_FIX_POS - height / 2.0;
+    }*/
+    bottom = positionY + PLAYER_FIX_POS - height / 2.0f;
     glTranslatef(0.0f, positionY, 0.0f);
-    ground = 0.0f;
   }
 
 public:
@@ -73,7 +74,7 @@ public:
     }
   }
 
-  void earlyEndJump() { velocityY = 0.0f; }
+  void earlyEndJump() { velocityY = ground; }
 
   void startSlide() { isSliding = true; }
   void endSlide() { isSliding = false; }
@@ -104,5 +105,9 @@ public:
 
   float getTop() const { return bottom + height; }
 
-  void setGround(float ground) const { this->ground = ground; }
+  void setGround(float ground) const { 
+    this->ground = ground;
+    this->positionY = ground;
+    velocityY = 0.0;
+    this->onGround = true; }
 };
