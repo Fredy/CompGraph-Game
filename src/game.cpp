@@ -118,8 +118,8 @@ int main() {
   Foreground foreground;
   Background background;
 
-  MapReader mapReader({"maps/tst.map"});
-  mapReader.load(0);
+  MapReader mapReader({"maps/one.map", "maps/two.map", "maps/three.map"});
+  mapReader.load(2);
 
   double dt, currentTime, lastTime = 0.0;
   // Main loop
