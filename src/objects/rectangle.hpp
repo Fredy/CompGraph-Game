@@ -6,7 +6,6 @@ class Rectangle : public Object {
 private:
   using Object::setData;
   using Object::setMode;
-  using Object::setTexCoords;
   using Object::setVertices;
 
 protected:
@@ -29,8 +28,8 @@ public:
         {left + width, bottom + height, -depth}, // tr
         {left, bottom + height, -depth},         // tl
     };
-    setData(vertices, GL_QUADS);
     setTexCoords({{0, 1}, {1, 1}, {1, 0}, {0, 0}});
+    setData(vertices, GL_QUADS);
   }
 
   /* Draws the rectangle at (0, 0) */

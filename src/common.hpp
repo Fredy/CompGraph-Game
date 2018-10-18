@@ -9,6 +9,8 @@ enum class ObstacleType {
   hole = 'H',
   fireBall = 'F',
   box = 'b',
+
+  coin = 'C',
 };
 
 namespace color {

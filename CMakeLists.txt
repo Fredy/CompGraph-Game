@@ -1,9 +1,14 @@
 cmake_minimum_required(VERSION 3.8)
 project(OpenGL_Game C CXX)
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
 set(OpenGL_GL_PREFERENCE GLVND)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_C_STANDARD 11)
+
 
 # GLFW
 option(GLFW_BUILD_DOCS OFF)
@@ -20,6 +25,9 @@ else()
         set(GLAD_LIBRARIES dl)
     endif()
 endif()
+
+# Optimization flags
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 # Include Paths
 include_directories(src

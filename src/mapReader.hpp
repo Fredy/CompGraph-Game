@@ -1,10 +1,11 @@
 #pragma once
 
 #include "common.hpp"
-#include "objects/obstacles/obstacle.hpp"
 #include "objects/obstacles/block.hpp"
-#include "objects/obstacles/rock.hpp"
+#include "objects/obstacles/coin.hpp"
 #include "objects/obstacles/hole.hpp"
+#include "objects/obstacles/obstacle.hpp"
+#include "objects/obstacles/rock.hpp"
 #include "objects/player.hpp"
 #include <fstream>
 #include <iterator>
@@ -37,6 +38,10 @@ private:
       break;
     case comm::ObstacleType::box:
       break;
+    case comm::ObstacleType::coin:
+      obstacle = new Coin(left, bottom);
+      obstacle->setVelocity(5.0f);
+      break;
     default:
       cout << "Type doesn't recognized: " << char(type) << endl;
       break;
@@ -51,7 +56,7 @@ private:
     loadedMap.clear();
   }
 
-  void setHoleProps(Hole* hole, float groupLeft, float groupWidth) {
+  void setHoleProps(Hole *hole, float groupLeft, float groupWidth) {
     hole->setGroupLeft(groupLeft);
     hole->setGroupWidth(groupWidth);
   }
@@ -90,7 +95,7 @@ public:
                                             comm::UNIT_WIDTH + pos, bottom);
 
         if (comm::ObstacleType(line[pos]) == comm::ObstacleType::hole) {
-          holeRow.push_back(dynamic_cast<Hole*>(obstacle));
+          holeRow.push_back(dynamic_cast<Hole *>(obstacle));
           if (holeLeft == 0.0f) {
             holeLeft = comm::UNIT_WIDTH + pos;
           }
