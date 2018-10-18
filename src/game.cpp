@@ -138,8 +138,7 @@ int main() {
     glColor3fv(comm::color::WHITE);
     foreground.update();
 
-    glColor3fv(comm::color::LIGHT_BLUE);
-    background.update();
+    background.update(dt);
 
 
     mapReader.updateMap(dt, player);

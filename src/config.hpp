@@ -11,4 +11,5 @@ const string coinTexturePath = "textures/coin1.png";
 const string fireBallTexturePath = "";
 const string boxTexturePath = "";
 const string fgTexturePath = "textures/floor.png";
+const string bgTexturePath = "textures/background.png";
 } // namespace config
