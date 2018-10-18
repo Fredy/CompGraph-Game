@@ -6,6 +6,8 @@
 #include <math.h>
 
 class Obstacle : public Rectangle {
+  private:
+  void update(float dt) override {}
 protected:
   float velocityX;
   float positionX = 0.0f;
@@ -66,7 +68,7 @@ public:
     }
   }
 
-  virtual void update(float dt, const Player &player) {
+  virtual void update(float dt, const Player &player){
     // Everything that needs a tranformation must go inside glPushMatrix() and
     // glPopMatrix()
     checkCollision(player.getLeft(), player.getBottom(), player.getRight(),

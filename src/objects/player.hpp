@@ -25,15 +25,19 @@ private:
         degree += 10.0f;
       }
       glRotatef(degree, 0, 0, 1);
-      left = PLAYER_FIX_POS + 0.5f;
+      left = PLAYER_FIX_POS + width / 2.0f;
       bottom = ground + 1.0f;
+      height = 1.0f;
+      width = 3.0f;
       glTranslatef(-1.0f, 0.0f, 0.0f);
     } else {
       if (degree > 0.0f) {
         degree -= 10.0f;
         glRotatef(degree, 0, 0, 1);
-        left = PLAYER_FIX_POS - 0.5f;
+        left = PLAYER_FIX_POS - width / 2.0f;
         bottom = -height / 2.0f + PLAYER_FIX_POS;
+        height = 3.0f;
+        width = 1.0f;
       }
     }
   }

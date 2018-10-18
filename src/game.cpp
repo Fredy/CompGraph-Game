@@ -7,6 +7,8 @@
 #include <glad/glad.h>
 #include <iostream>
 #include "helpers/texture.hpp"
+#include "objects/foreground.hpp"
+#include "objects/background.hpp"
 using namespace std;
 
 GLuint WIDTH = 1280, HEIGHT = 720;
@@ -73,7 +75,10 @@ GLFWwindow *initGL() {
   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_TEXTURE_2D);
-  glDisable(GL_COLOR_MATERIAL);
+//  glDisable(GL_COLOR_MATERIAL);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnable(GL_BLEND);
+
 
   return window;
 }
@@ -110,16 +115,11 @@ int main() {
     return 1;
   }
 
-  Rectangle foreground(0, 0, comm::UNIT_WIDTH, 3, 2);
-  Rectangle background(0, 0, comm::UNIT_WIDTH, comm::UNIT_HEIGHT, 90);
+  Foreground foreground;
+  Background background;
 
   MapReader mapReader({"maps/tst.map"});
   mapReader.load(0);
-
-  /// TEXTURE ////
-  GLuint texture = texture::load("textures/floor.png");
-
-  GLuint texture1 = texture::load("textures/wall1.png");
 
   double dt, currentTime, lastTime = 0.0;
   // Main loop
@@ -136,10 +136,10 @@ int main() {
     glLoadIdentity();
 
     glColor3fv(comm::color::WHITE);
-    foreground.draw(texture);
+    foreground.update();
 
     glColor3fv(comm::color::LIGHT_BLUE);
-    background.draw();
+    background.update();
 
 
     mapReader.updateMap(dt, player);

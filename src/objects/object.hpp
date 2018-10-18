@@ -3,19 +3,22 @@
 #include <array>
 #include <glad/glad.h>
 #include <vector>
+#include "helpers/texture.hpp"
+#include "config.hpp"
 using namespace std;
 
 class Object {
 private:
   GLenum mode;
+  GLuint textureId = 0;
   vector<array<float, 3>> vertices;
   vector<array<float, 2>> texCoords;
 
 protected:
   // This method shouldn't be used when drawing something that moves (or
   // anything). Use draw(deltaTime) instead.
-  void draw(GLuint texture = 0) {
-    glBindTexture(GL_TEXTURE_2D, texture);
+  void draw() {
+    glBindTexture(GL_TEXTURE_2D, textureId);
     glBegin(mode);
     for (size_t i = 0; i < vertices.size(); i++) {
       glTexCoord2fv(texCoords[i].data());
@@ -26,7 +29,6 @@ protected:
     // texture pass 0 or nothing as parameter
   }
 
-public:
   void setData(const vector<array<float, 3>> &vertices, GLenum mode) {
     this->vertices = vertices;
     this->mode = mode;
@@ -39,6 +41,7 @@ public:
 
   void setMode(GLenum mode) { this->mode = mode; }
 
+  void setTextureId(GLuint textureID) { this->textureId = textureID; }
   void setVertices(const vector<array<float, 3>> &vertices) {
     this->vertices = vertices;
   }
@@ -47,5 +50,6 @@ public:
     this->texCoords = texCoords;
   }
 
-  virtual void update(float dt) {}
+public:
+  virtual void update(float dt) = 0;
 };

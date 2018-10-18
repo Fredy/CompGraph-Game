@@ -16,7 +16,6 @@ protected:
   float height;
 
 public:
-  using Object::draw;
   /* Draws the rectangle with it bottom left corner at (left, bottom) */
   Rectangle(float left, float bottom, float width, float height, float depth) {
     this->left = left;
