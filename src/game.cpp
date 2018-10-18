@@ -144,7 +144,7 @@ int main() {
 
     mapReader.updateMap(dt, player);
 
-     drawGrid();
+    //  drawGrid();
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
