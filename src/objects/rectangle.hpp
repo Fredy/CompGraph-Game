@@ -18,7 +18,7 @@ protected:
 
 public:
   /* Draws the rectangle with it bottom left corner at (left, bottom) */
-  Rectangle(float left, float bottom,  float z,float width, float height,float sizeZ, float depth,) {
+  Rectangle(float left, float bottom,  float z,float width, float height,float sizeZ, float depth) {
     this->left = left;
     this->bottom = bottom;
     this->z = z;

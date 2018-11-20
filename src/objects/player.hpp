@@ -57,7 +57,7 @@ private:
   }
 
 public:
-  Player() : Rectangle(1.0f, 3.0f, 1.0f) {
+  Player() : Rectangle(1.0f, 3.0f,1.0f, 1.0f) {
     bottom = PLAYER_FIX_POS - height / 2.0;
     left = PLAYER_FIX_POS - width / 2.0f;
   }
@@ -105,7 +105,7 @@ public:
 
   float getTop() const { return bottom + height; }
 
-  void setGround(float ground) const { 
+  void setGround(float ground) const {
     this->ground = ground;
     this->positionY = ground;
     velocityY = 0.0;
