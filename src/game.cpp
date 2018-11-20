@@ -9,6 +9,8 @@
 #include "helpers/texture.hpp"
 #include "objects/foreground.hpp"
 #include "objects/background.hpp"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 using namespace std;
 
 GLuint WIDTH = 1280, HEIGHT = 720;
@@ -121,6 +123,12 @@ int main() {
   MapReader mapReader({"maps/one.map", "maps/two.map", "maps/three.map"});
   mapReader.load(2);
 
+  glm::mat4 projectionMatrix = glm::perspective(
+      glm::radians(45.0f), float(WIDTH) / HEIGHT, 0.1f, 1000.0f);
+
+  glm::mat4 viewMatrix =
+      glm::lookAt(glm::vec3(30.0f, 30.0f, 30.0f), {0, 0, 0}, {0, 1, 0});
+
   double dt, currentTime, lastTime = 0.0;
   // Main loop
   while (!glfwWindowShouldClose(window)) {
@@ -131,9 +139,10 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0.0f, comm::UNIT_WIDTH, 0.0f, comm::UNIT_HEIGHT, 0.0f, 100.0f);
+    glMultMatrixf(&projectionMatrix[0][0]);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    glMultMatrixf(&viewMatrix[0][0]);
 
     player.update(dt);
     glColor3fv(comm::color::WHITE);
