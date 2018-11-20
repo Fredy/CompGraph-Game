@@ -41,6 +41,48 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action,
   }
 }
 
+void drawCube(float x, float y, float z, float sizeX, float sizeY,
+              float sizeZ) {
+  glBegin(GL_QUADS);
+  // glColor3f(0.0, 0.0, 0.75);
+  glVertex3f(x, y, z);
+  glVertex3f(x, y + sizeY, z);
+  glVertex3f(x + sizeX, y + sizeY, z);
+  glVertex3f(x + sizeX, y, z);
+
+  // glColor3f(0.0, 0.75, 0.0);
+  glVertex3f(x, y, z);
+  glVertex3f(x + sizeX, y, z);
+  glVertex3f(x + sizeX, y, z + sizeZ);
+  glVertex3f(x, y, z + sizeZ);
+
+  // glColor3f(0.75, 0.0, 0.0);
+  glVertex3f(x, y, z);
+  glVertex3f(x, y, z + sizeZ);
+  glVertex3f(x, y + sizeY, z + sizeZ);
+  glVertex3f(x, y + sizeY, z);
+
+  // glColor3f(0.0, 0.0, 0.75);
+  glVertex3f(x, y, z + sizeZ);
+  glVertex3f(x + sizeX, y, z + sizeZ);
+  glVertex3f(x + sizeX, y + sizeY, z + sizeZ);
+  glVertex3f(x, y + sizeY, z + sizeZ);
+
+  // glColor3f(0.0, 0.75, 0.0);
+  glVertex3f(x, y + sizeY, z);
+  glVertex3f(x, y + sizeY, z + sizeZ);
+  glVertex3f(x + sizeX, y + sizeY, z + sizeZ);
+  glVertex3f(x + sizeX, y + sizeY, z);
+
+  // glColor3f(0.75, 0.0, 0.0);
+  glVertex3f(x + sizeX, y, z);
+  glVertex3f(x + sizeX, y + sizeY, z);
+  glVertex3f(x + sizeX, y + sizeY, z + sizeZ);
+  glVertex3f(x + sizeX, y, z + sizeZ);
+
+  glEnd();
+}
+
 GLFWwindow *initGL() {
   // GLFW initialization
   if (!glfwInit()) {
