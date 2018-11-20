@@ -4,8 +4,8 @@
 
 class Rectangle : public Object {
 private:
-  using Object::setMode;
   using Object::setData;
+  using Object::setMode;
   using Object::setVertices;
 
 protected:
@@ -28,11 +28,11 @@ public:
         {left + width, bottom + height, -depth}, // tr
         {left, bottom + height, -depth},         // tl
     };
+    setTexCoords({{0, 1}, {1, 1}, {1, 0}, {0, 0}});
     setData(vertices, GL_QUADS);
   }
 
   /* Draws the rectangle at (0, 0) */
   Rectangle(float width, float height, float depth)
       : Rectangle(-width / 2.0f, -height / 2.0f, width, height, depth) {}
-
 };

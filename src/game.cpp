@@ -1,26 +1,19 @@
-#include "helpers/shader.hpp"
-#include "objects/object.hpp"
+#include "common.hpp"
+#include "mapReader.hpp"
 #include "objects/player.hpp"
 #include "objects/rectangle.hpp"
-#include "objects/obstacle.hpp"
-#include "mapReader.hpp"
 #include <GLFW/glfw3.h>
 #include <cmath>
 #include <glad/glad.h>
-#include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
-#include "common.hpp"
+#include "helpers/texture.hpp"
+#include "objects/foreground.hpp"
+#include "objects/background.hpp"
 using namespace std;
 
 GLuint WIDTH = 1280, HEIGHT = 720;
 
-const float BLUE[] = {0.16f, 0.23f, 0.88f};
-const float ORANGE[] = {1.0f, 0.67f, 0.0f};
-const float RED[] = {0.81f, 0.02f, 0.0f};
-const float BLACK[] = {0.0f, 0.0f, 0.0f};
-const float GREEN[] = {0.1f, 1.0f, 0.2f};
-
-Player character;
+Player player;
 
 void frameBufferSizeCallback(GLFWwindow *window, int width, int height) {
   cout << "Width and height: " << width << ", " << height << "\n";
@@ -32,19 +25,18 @@ void frameBufferSizeCallback(GLFWwindow *window, int width, int height) {
 void keyCallback(GLFWwindow *window, int key, int scancode, int action,
                  int mods) {
   if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-    character.startJump();
+    player.startJump();
   }
   if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
-    character.endJump();
+    player.endJump();
   }
   if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
-    character.startSlide();
-    character.earlyEndJump();
+    player.startSlide();
+    player.earlyEndJump();
   }
   if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE) {
-    character.endSlide();
+    player.endSlide();
   }
-    
 }
 
 GLFWwindow *initGL() {
@@ -82,6 +74,11 @@ GLFWwindow *initGL() {
   // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
   glEnable(GL_DEPTH_TEST);
+  glEnable(GL_TEXTURE_2D);
+//  glDisable(GL_COLOR_MATERIAL);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnable(GL_BLEND);
+
 
   return window;
 }
@@ -118,16 +115,11 @@ int main() {
     return 1;
   }
 
-  Rectangle foreground(0, 0, comm::UNIT_WIDTH, 3, 2);
-  Rectangle background(0, 0, comm::UNIT_WIDTH, comm::UNIT_HEIGHT, 90);
+  Foreground foreground;
+  Background background;
 
-  //Obstacle obstacle(32, 4);
-  //Obstacle obstacle1(33, 4);
-
-  //obstacle.setVelocity(1.0f);
-  //obstacle1.setVelocity(1.0f);
-  MapReader mapReader({"maps/tst.map"});
-  mapReader.load(0);
+  MapReader mapReader({"maps/one.map", "maps/two.map", "maps/three.map"});
+  mapReader.load(2);
 
   double dt, currentTime, lastTime = 0.0;
   // Main loop
@@ -143,18 +135,16 @@ int main() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    glColor3fv(GREEN);
-    foreground.draw();
+    player.update(dt);
+    glColor3fv(comm::color::WHITE);
+    foreground.update(dt, player);
 
-    glColor3fv(BLUE);
-    background.draw();
+    background.update(dt);
 
-    character.draw(dt);
-    //obstacle.draw(dt);
-    //obstacle1.draw(dt);
-    mapReader.updateMap(dt, character);
 
-    drawGrid();
+    mapReader.updateMap(dt, player);
+
+    //  drawGrid();
     glfwSwapBuffers(window);
     glfwPollEvents();
   }

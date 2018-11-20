@@ -1,9 +1,14 @@
 cmake_minimum_required(VERSION 3.8)
 project(OpenGL_Game C CXX)
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
 set(OpenGL_GL_PREFERENCE GLVND)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_C_STANDARD 11)
+
 
 # GLFW
 option(GLFW_BUILD_DOCS OFF)
@@ -21,6 +26,9 @@ else()
     endif()
 endif()
 
+# Optimization flags
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
 # Include Paths
 include_directories(src
                     vendor/glad/include/
@@ -36,8 +44,10 @@ add_library(glad STATIC ${GLAD_SRC})
 
 # Helpers sources
 set(SOURCE src/helpers/shader.hpp
-                src/helpers/objloader.cpp src/helpers/objloader.hpp
-                src/objects/object.hpp)
+           src/helpers/objloader.cpp src/helpers/objloader.hpp
+           src/helpers/texture.cpp src/helpers/texture.hpp
+           src/objects/object.hpp
+           src/imgDummy.cpp)
 
 # Libraries
 find_package(OpenGL REQUIRED)
@@ -45,8 +55,8 @@ set(ALL_LIBS OpenGL::GL glfw ${GLFW_LIBRARIES} glad ${GLAD_LIBRARIES})
 
 # Executables
 
-add_executable(game_example src/game_example.cpp ${SOURCE})
-target_link_libraries(game_example PUBLIC  ${ALL_LIBS})
+add_executable(game src/game.cpp ${SOURCE})
+target_link_libraries(game PUBLIC  ${ALL_LIBS})
 
 ######
 
