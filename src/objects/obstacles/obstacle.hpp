@@ -41,7 +41,7 @@ protected:
 
 public:
   Obstacle(float left, float bottom, float depth = 5.0f)
-      : Rectangle(left, bottom, 1, 1, depth) {}
+      : Rectangle(left, bottom, 0, 1, 1, 1, depth) {}
 
   void setVelocity(float velocity) { velocityX = velocity; }
 
