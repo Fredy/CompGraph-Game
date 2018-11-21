@@ -51,7 +51,7 @@ public:
 
     glPushMatrix();
 
-    glTranslatef(positionX, 0.0f, 0.0f);
+    glTranslatef(positionX, 0.0f, 0.5f);
 
     draw();
 

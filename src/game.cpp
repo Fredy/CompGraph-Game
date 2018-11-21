@@ -169,7 +169,7 @@ int main() {
       glm::radians(45.0f), float(WIDTH) / HEIGHT, 0.1f, 1000.0f);
 
   glm::mat4 viewMatrix =
-      glm::lookAt(glm::vec3(30.0f, 30.0f, 30.0f), {0, 0, 0}, {0, 1, 0});
+      glm::lookAt(glm::vec3(15.0f, 15.0f, 20.0f), {0, 0, 0}, {0, 1, 0});
 
   double dt, currentTime, lastTime = 0.0;
   // Main loop

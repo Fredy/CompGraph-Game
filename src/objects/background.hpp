@@ -7,7 +7,7 @@ class Background : public Rectangle {
 private:
   float textureX = 0.0f;
 public:
-  Background() : Rectangle(0, 3, 0, comm::UNIT_WIDTH, comm::UNIT_HEIGHT - 3,1, 90) {
+  Background() : Rectangle(0, 3, -1, comm::UNIT_WIDTH, comm::UNIT_HEIGHT - 3,1, 90) {
     setTextureId(texture::load(config::bgTexturePath));
   }
 
