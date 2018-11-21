@@ -72,4 +72,9 @@ public:
   /* Draws the rectangle at (0, 0) */
   Rectangle(float width, float height,float sizeZ, float depth)
       : Rectangle(-width / 2.0f, -height / 2.0f, -sizeZ / 2.0f, width, height, sizeZ, depth) {}
+
+  virtual void update(float dt) {
+    glColor3f(0,0.8f, 0.1f);
+    draw();
+  };
 };

@@ -47,6 +47,7 @@ set(SOURCE src/helpers/shader.hpp
            src/helpers/objloader.cpp src/helpers/objloader.hpp
            src/helpers/texture.cpp src/helpers/texture.hpp
            src/objects/object.hpp
+           src/helpers/camera.cpp src/helpers/camera.hpp
            src/imgDummy.cpp)
 
 # Libraries

@@ -11,6 +11,7 @@
 #include "objects/background.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "helpers/camera.hpp"
 using namespace std;
 
 GLuint WIDTH = 1280, HEIGHT = 720;
@@ -109,6 +110,7 @@ GLFWwindow *initGL() {
   glfwMakeContextCurrent(window);
   glfwSetFramebufferSizeCallback(window, frameBufferSizeCallback);
   glfwSetKeyCallback(window, keyCallback);
+  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
   // Glad initialization
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -160,11 +162,13 @@ int main() {
   }
 
   Foreground foreground;
-  Background background;
+  Rectangle floor(-50,2,-50, 100, 1, 100, 0);
+  // Background background;
 
   MapReader mapReader({"maps/one.map", "maps/two.map", "maps/three.map"});
   mapReader.load(2);
 
+  Camera camera(window, 20.0f, 0.0018f);
   glm::mat4 projectionMatrix = glm::perspective(
       glm::radians(45.0f), float(WIDTH) / HEIGHT, 0.1f, 1000.0f);
 
@@ -178,19 +182,21 @@ int main() {
     dt = currentTime - lastTime;
     lastTime = currentTime;
 
+    camera.computeMatrices(dt);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glMultMatrixf(&projectionMatrix[0][0]);
+    glMultMatrixf(&camera.getProjectionMatrix()[0][0]);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glMultMatrixf(&viewMatrix[0][0]);
+    glMultMatrixf(&camera.getViewMatrix()[0][0]);
 
     player.update(dt);
     glColor3fv(comm::color::WHITE);
     foreground.update(dt, player);
 
-    background.update(dt);
+    floor.update(dt);
+    // background.update(dt);
 
 
     mapReader.updateMap(dt, player);
