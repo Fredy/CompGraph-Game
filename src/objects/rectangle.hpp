@@ -63,7 +63,9 @@ public:
         {left + width, bottom + height, -depth}, // tr
         {left, bottom + height, -depth},         // tl*/
     };
-    setTexCoords({{0, 1}, {1, 1}, {1, 0}, {0, 0}});
+    setTexCoords({{0, 1}, {1, 1}, {1, 0}, {0, 0} , {0, 0}, {1, 0}, {1, 1}, {0, 1} ,
+                  {1, 1}, {0, 1}, {0, 0}, {1, 0} , {0, 1}, {1, 1}, {1, 0}, {0, 0} ,
+                  {0, 1}, {1, 1}, {1, 0}, {0, 0} , {0, 1}, {1, 1}, {1, 0}, {0, 0} });
     setData(vertices, GL_QUADS);
   }
 
