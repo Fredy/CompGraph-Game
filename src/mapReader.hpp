@@ -120,8 +120,9 @@ public:
   }
 
   void updateMap(float dt, const Player &player) {
-    for (const auto &i : loadedMap) {
-      i->update(dt, player);
+    auto i = loadedMap.rbegin();
+    for (; i < loadedMap.rend(); i++) {
+      (*i)->update(dt,player);
     }
   }
 };

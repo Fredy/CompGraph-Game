@@ -161,10 +161,13 @@ int main() {
     return 1;
   }
 
-  Foreground foreground;
-  Rectangle floor(-50,2,-50, 200, 1, 100, 0);
-  Rectangle sky(-50,2,-10, 200, 100, 1, 0);
-  // Background background;
+  // Rectangle floor1(-50,2, 2, 200, 1, 100, 0);
+  // Rectangle floor2(-50,2,-10, 200, 1, 8, 0);
+  Foreground foregroundL(-10, 9);
+  Foreground foregroundR(2, 9);
+  Rectangle floor(-12,2, -1, comm::UNIT_WIDTH * 2, 1, 3, 0);
+  // Rectangle floor2(-50,2,-10, 200, 1, 8, 0);
+  Background background;
 
   MapReader mapReader({"maps/one.map", "maps/two.map", "maps/three.map"});
   mapReader.load(2);
@@ -194,17 +197,17 @@ int main() {
 
     player.update(dt);
     glColor3fv(comm::color::WHITE);
-    foreground.update(dt, player);
+    foregroundL.update(dt, player);
+    foregroundR.update(dt, player);
+    background.update(dt);
 
     glColor3f(0,0.8f, 0.1f);
     floor.update(dt);
-    // background.update(dt);
-
-    glColor3f(0.2f,0.5f, 0.8f);
-    sky.update(dt);
+    // floor2.update(dt);
 
 
     mapReader.updateMap(dt, player);
+
 
     //  drawGrid();
     glfwSwapBuffers(window);
