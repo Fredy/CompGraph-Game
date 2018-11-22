@@ -162,7 +162,8 @@ int main() {
   }
 
   Foreground foreground;
-  Rectangle floor(-50,2,-50, 100, 1, 100, 0);
+  Rectangle floor(-50,2,-50, 200, 1, 100, 0);
+  Rectangle sky(-50,2,-10, 200, 100, 1, 0);
   // Background background;
 
   MapReader mapReader({"maps/one.map", "maps/two.map", "maps/three.map"});
@@ -195,8 +196,12 @@ int main() {
     glColor3fv(comm::color::WHITE);
     foreground.update(dt, player);
 
+    glColor3f(0,0.8f, 0.1f);
     floor.update(dt);
     // background.update(dt);
+
+    glColor3f(0.2f,0.5f, 0.8f);
+    sky.update(dt);
 
 
     mapReader.updateMap(dt, player);
