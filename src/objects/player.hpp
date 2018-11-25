@@ -17,7 +17,7 @@ private:
   float degree = 0.0f;
   mutable float ground = 0.0f;
 
-  void fixPosition() { glTranslatef(PLAYER_FIX_POS, PLAYER_FIX_POS, 0.0f); }
+  void fixPosition() { glTranslatef(PLAYER_FIX_POS, PLAYER_FIX_POS, 1.0f); }
 
   void doSlide(float dt) {
     // cout << "L: " << left << " B: " << bottom<< " ";
@@ -57,7 +57,7 @@ private:
   }
 
 public:
-  Player() : Rectangle(1.0f, 3.0f,1.0f, 1.0f) {
+  Player() : Rectangle(-0.5f,-1.5f,0.0f, 1.0f, 3.0f,1.0f) {
     bottom = PLAYER_FIX_POS - height / 2.0;
     left = PLAYER_FIX_POS - width / 2.0f;
   }

@@ -40,8 +40,8 @@ protected:
   }
 
 public:
-  Obstacle(float left, float bottom, float depth = 5.0f)
-      : Rectangle(left, bottom, 0, 1, 1, 1, depth) {}
+  Obstacle(float left, float bottom, float z = 1, float sizeZ = 1.0f)
+      : Rectangle(left, bottom, z, 1, 1, sizeZ) {}
 
   void setVelocity(float velocity) { velocityX = velocity; }
 

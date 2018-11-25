@@ -159,7 +159,7 @@ int main() {
     return 1;
   }
 
-  Foreground foreground;
+  Foreground foreground(0);
   Background background;
 
   MapReader mapReader({"maps/one.map", "maps/two.map", "maps/three.map"});
@@ -189,7 +189,6 @@ int main() {
     player.update(dt);
     glColor3fv(comm::color::WHITE);
     foreground.update(dt, player);
-
     background.update(dt);
 
 

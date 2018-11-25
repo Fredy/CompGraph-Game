@@ -7,6 +7,7 @@
 #include "objects/obstacles/hole.hpp"
 #include "objects/obstacles/obstacle.hpp"
 #include "objects/obstacles/rock.hpp"
+#include "objects/obstacles/floor.hpp"
 #include "objects/player.hpp"
 #include <fstream>
 #include <iterator>
@@ -34,6 +35,10 @@ private:
       break;
     case comm::ObstacleType::hole:
       obstacle = new Hole(left, bottom);
+      obstacle->setVelocity(5.0f);
+      break;
+    case comm::ObstacleType::floor:
+      obstacle = new Floor(left, bottom);
       obstacle->setVelocity(5.0f);
       break;
     case comm::ObstacleType::fireBall:

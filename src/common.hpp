@@ -6,10 +6,10 @@ const float UNIT_WIDTH = 32.0f, UNIT_HEIGHT = 18.0f;
 enum class ObstacleType {
   rock = 'R',
   block = 'B', // its the same as wall
-  hole = 'H',
   fireBall = 'F',
+  hole = 'H',
   box = 'b',
-
+  floor = 'f',
   coin = 'C',
 };
 

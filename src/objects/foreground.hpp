@@ -8,7 +8,7 @@ class Foreground : public Rectangle {
   void update(float dt) override {}
   float textureX = 0.0f;
 public:
-  Foreground() : Rectangle(0, 0, 0, comm::UNIT_WIDTH, 3, 1, 2) {
+  Foreground(int pos) : Rectangle(0, 3, pos, comm::UNIT_WIDTH, 0, 1) {
     setTextureId(texture::load(config::fgTexturePath));
   }
 

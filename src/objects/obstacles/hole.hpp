@@ -15,8 +15,8 @@ private:
   }
 
 public:
-  Hole(float left, float bottom, float depth = 1.0f)
-      : Obstacle(left, bottom, depth) {
+  Hole(float left, float bottom, float depth = 3.0f)
+      : Obstacle(left, bottom,0, depth) {
     setTextureId(texture::load(config::holeTexturePath));
   }
 
@@ -51,7 +51,7 @@ public:
 
     glPushMatrix();
 
-    glTranslatef(positionX, 0.0f, 0.5f);
+    glTranslatef(positionX, 0.0f, 0.0f);
 
     draw();
 

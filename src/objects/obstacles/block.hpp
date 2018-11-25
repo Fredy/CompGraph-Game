@@ -4,8 +4,8 @@
 
 class Block : public Obstacle {
 public:
-  Block(float left, float bottom, float depth = 5.0f)
-      : Obstacle(left, bottom, depth) {
+  Block(float left, float bottom)
+      : Obstacle(left, bottom) {
     setTextureId(texture::load(config::blockTexturePath));
   }
   void action(const Player &player) override {

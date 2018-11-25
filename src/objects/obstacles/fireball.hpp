@@ -4,8 +4,8 @@
 
 class FireBall : public Obstacle {
 public:
-  FireBall(float left, float bottom, float depth = 4.0f)
-      : Obstacle(left, bottom, depth) {
+  FireBall(float left, float bottom)
+      : Obstacle(left, bottom) {
     setTextureId(texture::load(config::fireBallTexturePath));
   }
   void action(const Player &player) override {

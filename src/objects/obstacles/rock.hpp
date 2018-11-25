@@ -25,8 +25,8 @@ private:
   }
 
 public:
-  Rock(float left, float bottom, float depth = 5.0f)
-      : Obstacle(left, bottom, depth) {
+  Rock(float left, float bottom)
+      : Obstacle(left, bottom) {
     setTextureId(texture::load(config::rockTexturePath));
     setTexCoords({{0, spriteHeight}, {1, spriteHeight}, {1,0}, {0, 0}});
   }

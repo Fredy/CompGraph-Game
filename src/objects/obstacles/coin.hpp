@@ -5,8 +5,8 @@
 class Coin : public Obstacle {
   // Coin is not a obstacle, but it has the same behaviours 
 public:
-  Coin(float left, float bottom, float depth = 5.0f)
-      : Obstacle(left, bottom, depth) {
+  Coin(float left, float bottom)
+      : Obstacle(left, bottom) {
     setTextureId(texture::load(config::coinTexturePath));
   }
   void action(const Player &player) override {
