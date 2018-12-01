@@ -119,7 +119,7 @@ int main() {
     return 1;
   }
 
-  Foreground foregroundL(-10, 9);
+  Foreground foregroundL(-9, 9);
   Foreground foregroundR(3, 9);
   Background background;
 

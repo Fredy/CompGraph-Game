@@ -9,7 +9,7 @@ class Foreground : public Rectangle {
   float textureX = 0.0f;
 public:
 
-  Foreground(float z, float zSize) : Rectangle(-12, -1, z, comm::UNIT_WIDTH * 2, 4, zSize) {
+  Foreground(float z, float zSize) : Rectangle(-12, 0, z, comm::UNIT_WIDTH * 2, 3, zSize) {
     setTextureId(texture::load(config::fgTexturePath));
   }
 
@@ -34,12 +34,15 @@ public:
     textureX += 5.0f * dt / comm::UNIT_WIDTH;
     setTexCoords({});
 
+
+    // NOTE: the constant 2.0 is from the  comm::UNIT_WIDTH * 2, 3.0 if from width.
     setTexCoords({{0, 1}, {1, 1}, {1, 0}, {0, 0} , // front
                   {0, 0}, {1, 0}, {1, 1}, {0, 1} , // bottom
                   {1, 1}, {0, 1}, {0, 0}, {1, 0} , // left
-                  {textureX, 1.0f}, {1.0f + textureX, 1.0f}, // back 
-                  {1.0f +textureX, 0.0f}, {textureX, 0.0f},  
-{textureX, 1.0f}, {1.0f + textureX, 1.0f}, {1.0f +textureX, 0.0f}, {textureX, 0.0f},
+                  {textureX/2.0f, 1.0f}, {1.0f + textureX/2.0f, 1.0f}, // back 
+                  {1.0f +textureX/2.0f, 0.0f}, {textureX/2.0f, 0.0f},  
+                  {textureX, 3.0f}, {2.0f + textureX, 3.0f},  // top
+                  {2.0f +textureX, 0.0f}, {textureX, 0.0f},
                   {0, 1}, {1, 1}, {1, 0}, {0, 0} }); // right
 
     bool collision = checkCollision(player.getLeft(), player.getBottom(), player.getRight(),

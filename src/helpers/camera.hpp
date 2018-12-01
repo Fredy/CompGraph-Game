@@ -27,6 +27,7 @@ private:
   array<glm::vec3, 4> upArray;
 
 
+void freeCamera(float dt);
 
 public:
   Camera(GLFWwindow *window, float speed = 30.0f, float mouseSpeed = 0.0025f);

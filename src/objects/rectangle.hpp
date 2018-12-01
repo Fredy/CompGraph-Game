@@ -27,41 +27,36 @@ public:
     this->sizeZ = sizeZ;
 
     vector<array<float, 3>> vertices = {
-
+        // Front
         {left, bottom, z},
         {left + width, bottom , z},
         {left + width, bottom + height, z},
         {left, bottom + height, z},
-
+        // Bottom
         {left, bottom, z},
         {left + width, bottom, z},
         {left + width, bottom, z + sizeZ},
         {left, bottom, z + sizeZ},
-
+        // Left
         {left, bottom, z},
         {left, bottom, z + sizeZ},
         {left, bottom + height, z + sizeZ},
         {left, bottom + height, z},
-
+        // Back
         {left, bottom, z + sizeZ},
         {left + width, bottom, z + sizeZ},
         {left + width, bottom + height, z + sizeZ},
         {left, bottom + height, z + sizeZ},
-
+        // Top
         {left, bottom + height, z},
         {left + width, bottom + height, z},
         {left + width, bottom + height, z + sizeZ},
         {left, bottom + height, z + sizeZ},
-
+        // Right
         {left + width, bottom, z},
         {left + width, bottom, z + sizeZ},
         {left + width, bottom + height, z + sizeZ},
         {left + width, bottom + height, z},
-        
-        /*{left, bottom, -depth},                  // bl
-        {left + width, bottom, -depth},          // br
-        {left + width, bottom + height, -depth}, // tr
-        {left, bottom + height, -depth},         // tl*/
     };
     setTexCoords({{0, 1}, {1, 1}, {1, 0}, {0, 0} , {0, 0}, {1, 0}, {1, 1}, {0, 1} ,
                   {1, 1}, {0, 1}, {0, 0}, {1, 0} , {0, 1}, {1, 1}, {1, 0}, {0, 0} ,
