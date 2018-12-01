@@ -16,7 +16,7 @@ private:
 
 protected:
   // This method shouldn't be used when drawing something that moves (or
-  // anything). Use draw(deltaTime) instead.
+  // anything). Use update(deltaTime) instead.
   void draw() {
     glBindTexture(GL_TEXTURE_2D, textureId);
     glBegin(mode);

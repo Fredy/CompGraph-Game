@@ -1,11 +1,10 @@
 #pragma once
 
-#include "rectangle.hpp"
 #include "common.hpp"
-#include <iostream>
+#include "rectangle.hpp"
 #include <GLFW/glfw3.h>
+#include <iostream>
 using namespace std;
-
 
 class Player : public Rectangle {
 private:
@@ -28,9 +27,9 @@ private:
         degree += 10.0f;
       }
       glRotatef(degree, 0, 0, 1);
-      left = 3.0f;//PLAYER_FIX_POS + width / 2.0f;
-      bottom = 3.0f + ground;//ground + 1.0f;
-      height = 0.0f; // TODO: fix this!
+      left = 3.0f;            // PLAYER_FIX_POS + width / 2.0f;
+      bottom = 3.0f + ground; // ground + 1.0f;
+      height = 0.0f;          // TODO: fix this!
       width = 3.0f;
       glTranslatef(-1.0f, 0.0f, 0.0f);
     } else {
@@ -84,7 +83,7 @@ public:
     // Everything that needs a tranformation must go inside glPushMatrix() and
     // glPopMatrix()
 
-    //cout << "B: " << bottom << " L: " << left << endl;
+    // cout << "B: " << bottom << " L: " << left << endl;
     glPushMatrix();
 
     doJump(dt);
@@ -95,7 +94,6 @@ public:
     draw();
 
     glPopMatrix();
-
   }
 
   float getBottom() const { return bottom; }
@@ -106,26 +104,26 @@ public:
 
   float getTop() const { return bottom + height; }
 
-  void setGround(float ground) const { 
+  void setGround(float ground) const {
     this->ground = ground;
     positionY = ground;
     velocityY = 0.0;
-    onGround = true; 
-    }
+    onGround = true;
+  }
 
-void handleKeyInput(GLFWwindow *window) {
-  if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-    startJump();
+  void handleKeyInput(GLFWwindow *window) {
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+      startJump();
+    }
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE) {
+      endJump();
+    }
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+      startSlide();
+      earlyEndJump();
+    }
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_RELEASE) {
+      endSlide();
+    }
   }
-  if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE) {
-    endJump();
-  }
-  if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-    startSlide();
-    earlyEndJump();
-  }
-  if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_RELEASE) {
-    endSlide();
-  }
-}
 };

@@ -6,8 +6,9 @@
 #include <math.h>
 
 class Obstacle : public Rectangle {
-  private:
+private:
   void update(float dt) override {}
+
 protected:
   float velocityX;
   float positionX = 0.0f;
@@ -50,12 +51,13 @@ protected:
             left <= otherRight and right >= otherLeft);
   }
 
-  bool checkBotLeftCollision(float otherLeft, float otherBottom, float otherRight,
-                         float otherTop, float topWindow = 0.4f) {
+  bool checkBotLeftCollision(float otherLeft, float otherBottom,
+                             float otherRight, float otherTop,
+                             float topWindow = 0.4f) {
     const float right = left + width;
     const float top = bottom + height - topWindow;
-    return (bottom <= otherTop and top >= otherBottom and
-            left <= otherRight and right >= otherLeft);
+    return (bottom <= otherTop and top >= otherBottom and left <= otherRight and
+            right >= otherLeft);
   }
 
 public:
@@ -82,7 +84,6 @@ public:
       onCollision = true;
       return;
     }
-
   }
 
   virtual void action(const Player &player) {
@@ -93,7 +94,7 @@ public:
     }
   }
 
-  virtual void update(float dt, const Player &player){
+  virtual void update(float dt, const Player &player) {
     // Everything that needs a tranformation must go inside glPushMatrix() and
     // glPopMatrix()
     checkCollision(player.getLeft(), player.getBottom(), player.getRight(),

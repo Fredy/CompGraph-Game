@@ -121,11 +121,9 @@ int main() {
 
     player.update(dt);
     glColor3fv(comm::color::WHITE);
-    foreground.update(dt, player);
 
     background.update(dt);
-
-
+    foreground.update(dt, player);
     mapReader.updateMap(dt, player);
 
     //  drawGrid();
