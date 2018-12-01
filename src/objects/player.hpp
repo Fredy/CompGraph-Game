@@ -17,7 +17,7 @@ private:
   float degree = 0.0f;
   mutable float ground = 0.0f;
 
-  void fixPosition() { glTranslatef(PLAYER_FIX_POS, PLAYER_FIX_POS, 1.0f); }
+  void fixPosition() { glTranslatef(PLAYER_FIX_POS, PLAYER_FIX_POS, 0.5f); }
 
   void doSlide(float dt) {
     // cout << "L: " << left << " B: " << bottom<< " ";

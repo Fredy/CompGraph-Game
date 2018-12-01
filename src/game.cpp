@@ -11,6 +11,7 @@
 #include "objects/background.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "helpers/camera.hpp"
 using namespace std;
 
 GLuint WIDTH = 1280, HEIGHT = 720;
@@ -41,48 +42,6 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action,
   }
 }
 
-void drawCube(float x, float y, float z, float sizeX, float sizeY,
-              float sizeZ) {
-  glBegin(GL_QUADS);
-  // glColor3f(0.0, 0.0, 0.75);
-  glVertex3f(x, y, z);
-  glVertex3f(x, y + sizeY, z);
-  glVertex3f(x + sizeX, y + sizeY, z);
-  glVertex3f(x + sizeX, y, z);
-
-  // glColor3f(0.0, 0.75, 0.0);
-  glVertex3f(x, y, z);
-  glVertex3f(x + sizeX, y, z);
-  glVertex3f(x + sizeX, y, z + sizeZ);
-  glVertex3f(x, y, z + sizeZ);
-
-  // glColor3f(0.75, 0.0, 0.0);
-  glVertex3f(x, y, z);
-  glVertex3f(x, y, z + sizeZ);
-  glVertex3f(x, y + sizeY, z + sizeZ);
-  glVertex3f(x, y + sizeY, z);
-
-  // glColor3f(0.0, 0.0, 0.75);
-  glVertex3f(x, y, z + sizeZ);
-  glVertex3f(x + sizeX, y, z + sizeZ);
-  glVertex3f(x + sizeX, y + sizeY, z + sizeZ);
-  glVertex3f(x, y + sizeY, z + sizeZ);
-
-  // glColor3f(0.0, 0.75, 0.0);
-  glVertex3f(x, y + sizeY, z);
-  glVertex3f(x, y + sizeY, z + sizeZ);
-  glVertex3f(x + sizeX, y + sizeY, z + sizeZ);
-  glVertex3f(x + sizeX, y + sizeY, z);
-
-  // glColor3f(0.75, 0.0, 0.0);
-  glVertex3f(x + sizeX, y, z);
-  glVertex3f(x + sizeX, y + sizeY, z);
-  glVertex3f(x + sizeX, y + sizeY, z + sizeZ);
-  glVertex3f(x + sizeX, y, z + sizeZ);
-
-  glEnd();
-}
-
 GLFWwindow *initGL() {
   // GLFW initialization
   if (!glfwInit()) {
@@ -109,6 +68,7 @@ GLFWwindow *initGL() {
   glfwMakeContextCurrent(window);
   glfwSetFramebufferSizeCallback(window, frameBufferSizeCallback);
   glfwSetKeyCallback(window, keyCallback);
+  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
   // Glad initialization
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -159,12 +119,14 @@ int main() {
     return 1;
   }
 
-  Foreground foreground(0);
+  Foreground foregroundL(-10, 9);
+  Foreground foregroundR(3, 9);
   Background background;
 
   MapReader mapReader({"maps/one.map", "maps/two.map", "maps/three.map"});
   mapReader.load(2);
 
+  Camera camera(window, 20.0f, 0.0018f);
   glm::mat4 projectionMatrix = glm::perspective(
       glm::radians(45.0f), float(WIDTH) / HEIGHT, 0.1f, 1000.0f);
 
@@ -178,21 +140,26 @@ int main() {
     dt = currentTime - lastTime;
     lastTime = currentTime;
 
+    camera.computeMatrices(dt);
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glMultMatrixf(&projectionMatrix[0][0]);
+    glMultMatrixf(&camera.getProjectionMatrix()[0][0]);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glMultMatrixf(&viewMatrix[0][0]);
+    glMultMatrixf(&camera.getViewMatrix()[0][0]);
 
     player.update(dt);
     glColor3fv(comm::color::WHITE);
-    foreground.update(dt, player);
+    foregroundL.update(dt, player);
+    foregroundR.update(dt, player);
     background.update(dt);
 
+    glColor3f(0,0.8f, 0.1f);
 
     mapReader.updateMap(dt, player);
+
 
     //  drawGrid();
     glfwSwapBuffers(window);

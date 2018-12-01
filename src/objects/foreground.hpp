@@ -8,7 +8,8 @@ class Foreground : public Rectangle {
   void update(float dt) override {}
   float textureX = 0.0f;
 public:
-  Foreground(int pos) : Rectangle(0, 3, pos, comm::UNIT_WIDTH, 0, 1) {
+
+  Foreground(float z, float zSize) : Rectangle(-12, -1, z, comm::UNIT_WIDTH * 2, 4, zSize) {
     setTextureId(texture::load(config::fgTexturePath));
   }
 
@@ -31,7 +32,16 @@ public:
     // Everything that needs a tranformation must go inside glPushMatrix() and
     // glPopMatrix()
     textureX += 5.0f * dt / comm::UNIT_WIDTH;
-    setTexCoords({{textureX, 1.0f}, {1.0f + textureX, 1.0f}, {1.0f +textureX, 0.0f}, {textureX, 0.0f}});
+    setTexCoords({});
+
+    setTexCoords({{0, 1}, {1, 1}, {1, 0}, {0, 0} , // front
+                  {0, 0}, {1, 0}, {1, 1}, {0, 1} , // bottom
+                  {1, 1}, {0, 1}, {0, 0}, {1, 0} , // left
+                  {textureX, 1.0f}, {1.0f + textureX, 1.0f}, // back 
+                  {1.0f +textureX, 0.0f}, {textureX, 0.0f},  
+{textureX, 1.0f}, {1.0f + textureX, 1.0f}, {1.0f +textureX, 0.0f}, {textureX, 0.0f},
+                  {0, 1}, {1, 1}, {1, 0}, {0, 0} }); // right
+
     bool collision = checkCollision(player.getLeft(), player.getBottom(), player.getRight(),
                    player.getTop());
     if (collision) {
