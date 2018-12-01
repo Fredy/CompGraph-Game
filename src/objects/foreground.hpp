@@ -13,19 +13,10 @@ public:
     setTextureId(texture::load(config::fgTexturePath));
   }
 
- bool checkCollision(float otherLeft, float otherBottom, float otherRight,
-                      float otherTop) {
-    // This only determines if there has been a collision, most times it can not
-    // determine the position (direction) of the collision
-
-    const float right = left + width;
+ bool checkCollision(float otherBottom, float otherTop) {
+    // This only checks vertical collision. 
     const float top = bottom + height;
-    if (bottom <= otherTop and top >= otherBottom and left <= otherRight and
-        right >= otherLeft) {
-      return true;
-    }
-
-    return false;
+    return (bottom <= otherTop and top >= otherBottom );
   }
 
   virtual void update(float dt, const Player &player){
@@ -43,10 +34,10 @@ public:
                   {1.0f +textureX/2.0f, 0.0f}, {textureX/2.0f, 0.0f},  
                   {textureX, 3.0f}, {2.0f + textureX, 3.0f},  // top
                   {2.0f +textureX, 0.0f}, {textureX, 0.0f},
-                  {0, 1}, {1, 1}, {1, 0}, {0, 0} }); // right
+                  {0, 1}, {1, 1}, {1, 0}, {0, 0} // right
+                });
 
-    bool collision = checkCollision(player.getLeft(), player.getBottom(), player.getRight(),
-                   player.getTop());
+    bool collision = checkCollision(player.getBottom(), player.getTop());
     if (collision) {
       player.setGround(0.0f);
     }
