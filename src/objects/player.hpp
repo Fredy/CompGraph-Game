@@ -3,6 +3,7 @@
 #include "rectangle.hpp"
 #include "common.hpp"
 #include <iostream>
+#include <GLFW/glfw3.h>
 using namespace std;
 
 
@@ -107,7 +108,24 @@ public:
 
   void setGround(float ground) const { 
     this->ground = ground;
-    this->positionY = ground;
+    positionY = ground;
     velocityY = 0.0;
-    this->onGround = true; }
+    onGround = true; 
+    }
+
+void handleKeyInput(GLFWwindow *window) {
+  if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+    startJump();
+  }
+  if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE) {
+    endJump();
+  }
+  if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+    startSlide();
+    earlyEndJump();
+  }
+  if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_RELEASE) {
+    endSlide();
+  }
+}
 };

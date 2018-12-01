@@ -22,23 +22,6 @@ void frameBufferSizeCallback(GLFWwindow *window, int width, int height) {
   glViewport(0, 0, width, height);
 }
 
-void keyCallback(GLFWwindow *window, int key, int scancode, int action,
-                 int mods) {
-  if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-    player.startJump();
-  }
-  if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
-    player.endJump();
-  }
-  if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
-    player.startSlide();
-    player.earlyEndJump();
-  }
-  if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE) {
-    player.endSlide();
-  }
-}
-
 GLFWwindow *initGL() {
   // GLFW initialization
   if (!glfwInit()) {
@@ -64,7 +47,6 @@ GLFWwindow *initGL() {
 
   glfwMakeContextCurrent(window);
   glfwSetFramebufferSizeCallback(window, frameBufferSizeCallback);
-  glfwSetKeyCallback(window, keyCallback);
 
   // Glad initialization
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -127,6 +109,8 @@ int main() {
     currentTime = glfwGetTime();
     dt = currentTime - lastTime;
     lastTime = currentTime;
+
+    player.handleKeyInput(window);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
