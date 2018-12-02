@@ -40,6 +40,9 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action,
   if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE) {
     player.endSlide();
   }
+  if (key == GLFW_KEY_ESCAPE){
+   		exit(1);
+    }
 }
 
 GLFWwindow *initGL() {

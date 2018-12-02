@@ -7,8 +7,8 @@ namespace config {
 const string rockTexturePath = "textures/fire1.png";
 const string blockTexturePath = "textures/block1.png";
 const string holeTexturePath = "textures/hole.png";
-const string coinTexturePath = "textures/coin1.png";
-const string fireBallTexturePath = "textures/fireball.png";
+const string coinTexturePath = "textures/coin_Block.png";
+const string fireBallTexturePath = "textures/powerUP1.png";
 const string boxTexturePath = "";
 const string fgTexturePath = "textures/floor.png";
 const string fgSqrTexturePath = "textures/floor_sqr.png";
