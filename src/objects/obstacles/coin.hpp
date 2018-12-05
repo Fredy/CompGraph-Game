@@ -8,7 +8,7 @@ private:
   // Coin is not a obstacle, but it has the same behaviours 
 public:
   Coin(float left, float bottom)
-      : Obstacle(left, bottom) {
+      : Obstacle(left, bottom, 1.0f, 0.7f, 0.7f, 0.7f) {
     setTextureId(texture::load(config::coinTexturePath));
   }
   void action(const Player &player) override {
