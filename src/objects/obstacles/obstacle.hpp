@@ -6,12 +6,15 @@
 #include <math.h>
 
 class Obstacle : public Rectangle {
-  private:
+private:
   void update(float dt) override {}
+
 protected:
   float velocityX;
   float positionX = 0.0f;
   bool onCollision = false;
+  bool topCollision = false;
+  bool bottomLeftCollision = false;
 
   // Checks if this object coordinates are inside the horizonal limits of the
   // other object.
@@ -39,9 +42,28 @@ protected:
     return false;
   }
 
+  bool checkTopCollision(float otherLeft, float otherBottom, float otherRight,
+                         float otherTop, float topWindow = 0.4f) {
+    const float right = left + width;
+    const float top = bottom + height;
+    const float windowBottom = top - topWindow;
+    return (windowBottom <= otherTop and top >= otherBottom and
+            left <= otherRight and right >= otherLeft);
+  }
+
+  bool checkBotLeftCollision(float otherLeft, float otherBottom,
+                             float otherRight, float otherTop,
+                             float topWindow = 0.4f) {
+    const float right = left + width;
+    const float top = bottom + height - topWindow;
+    return (bottom <= otherTop and top >= otherBottom and left <= otherRight and
+            right >= otherLeft);
+  }
+
 public:
-    Obstacle(float left, float bottom, float z = 1, float sizeZ = 1.0f)
-      : Rectangle(left, bottom, z, 1, 1, sizeZ) {}
+  Obstacle(float left, float bottom, float z = 1, float sizeX = 1,
+           float sizeY = 1, float sizeZ = 1.0f)
+      : Rectangle(left, bottom, z, sizeX, sizeY, sizeZ) {}
 
   void setVelocity(float velocity) { velocityX = velocity; }
 
@@ -50,13 +72,18 @@ public:
     // This only determines if there has been a collision, most times it can not
     // determine the position (direction) of the collision
     onCollision = false;
+    bottomLeftCollision = false;
+    topCollision = false;
 
-    const float right = left + width;
-    const float top = bottom + height;
-    bool a = bottom <= otherTop;
-    if (bottom <= otherTop and top >= otherBottom and left <= otherRight and
-        right >= otherLeft) {
+    if (checkBotLeftCollision(otherLeft, otherBottom, otherRight, otherTop)) {
+      bottomLeftCollision = true;
       onCollision = true;
+      return;
+    }
+    if (checkTopCollision(otherLeft, otherBottom, otherRight, otherTop)) {
+      topCollision = true;
+      onCollision = true;
+      return;
     }
   }
 
@@ -68,7 +95,7 @@ public:
     }
   }
 
-  virtual void update(float dt, const Player &player){
+  virtual void update(float dt, const Player &player) {
     // Everything that needs a tranformation must go inside glPushMatrix() and
     // glPopMatrix()
     checkCollision(player.getLeft(), player.getBottom(), player.getRight(),
