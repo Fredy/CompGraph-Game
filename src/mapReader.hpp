@@ -25,6 +25,8 @@ private:
   size_t goalPos; 
   float progression;
 
+  GLuint barTextureId = texture::load(config::progresBarTexturePath);
+
   Obstacle *createObstacle(comm::ObstacleType type, float left, float bottom) {
     Obstacle *obstacle = nullptr;
     switch (type) {
@@ -161,19 +163,46 @@ public:
   }
 
   void drawProgressBar(float dt) {
-    const float left = 22;
+    const float left = 23.5f;
     const float width = 8;
-    const float bottom = 16;
+    const float bottom = 17.5f;
     const float height = 0.2f;
+    const float barMargin = 1.0f/16.0f;
+
     progression += 5.0f * dt / (goalPos / width);
+
+    glBindTexture(GL_TEXTURE_2D, barTextureId);
     glDisable(GL_TEXTURE_2D);
-    glColor3fv(comm::color::GREEN);
     glBegin(GL_QUADS);
+
+
+    glColor3fv(comm::color::WHITE);
+    glVertex3f(left, bottom, -2);
+    glVertex3f(left, bottom + height, -2);
+    glVertex3f(left + width, bottom + height, -2);
+    glVertex3f(left + width , bottom, -2);   
+
+    glColor3fv(comm::color::GREEN);
     glVertex3f(left, bottom, -1);
     glVertex3f(left, bottom + height, -1);
     glVertex3f(left + progression, bottom + height, -1);
     glVertex3f(left + progression , bottom, -1);
     glEnd();
+
     glEnable(GL_TEXTURE_2D);
+
+    glBegin(GL_QUADS);
+    glColor3fv(comm::color::WHITE);
+    glTexCoord2f(0,0);
+    glVertex3f(left - barMargin, bottom, 0);
+    glTexCoord2f(0,1);
+    glVertex3f(left - barMargin, bottom + height, 0);
+    glTexCoord2f(1,1);
+    glVertex3f(left + width + barMargin, bottom + height, 0);
+    glTexCoord2f(1,0);
+    glVertex3f(left + width + barMargin , bottom, 0);   
+    glEnd();
+
+
   }
 };

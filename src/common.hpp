@@ -26,6 +26,7 @@ const float RED[] = {0.81f, 0.02f, 0.0f};
 const float BLACK[] = {0.0f, 0.0f, 0.0f};
 const float WHITE[] = {1.0f, 1.0f, 1.0f};
 const float GREEN[] = {0.1f, 1.0f, 0.2f};
+const float GREY[] = {0.22, 0.22, 0.22};
 } // namespace color
 
 namespace rndTex {
