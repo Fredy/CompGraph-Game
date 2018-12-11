@@ -59,8 +59,16 @@ public:
     left -= velocityX * dt;
 
     glPushMatrix();
-    updateTexCoords(dt);
+    //updateTexCoords(dt);
     glTranslatef(positionX, 0.0f, 0.0f);
+    setTexCoords({});
+    setTexCoords({{0, 1}, {1, 1}, {1, 0}, {0, 0} , // front
+                  {0, 0}, {1, 0}, {1, 1}, {0, 1} , // bottom
+                  {1, 1}, {0, 1}, {0, 0}, {1, 0} , // left
+                  {0, 1.0f}, {1.0f, 1.0f}, // back 
+                  {1.0f, 0.0f}, {0, 0.0f},  
+                  {0, 0}, {0, 0}, {0, 0}, {0, 0} , // top
+                  {0, 1}, {1, 1}, {1, 0}, {0, 0} }); // right
 
     draw();
 
