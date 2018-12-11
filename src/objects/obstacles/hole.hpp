@@ -16,7 +16,7 @@ private:
 
 public:
   Hole(float left, float bottom, float depth = 3.0f)
-      : Obstacle(left, bottom,0, depth) {
+      : Obstacle(left, bottom,0, 1,1,depth) {
     setTextureId(texture::load(config::holeTexturePath));
   }
 
@@ -25,7 +25,8 @@ public:
     const float top = bottom + height;
     if (onCollision) {
       if (isCompletelyInsideHorizontal(player.getLeft(), player.getRight())) {
-        glColor3fv(comm::color::RED);
+        // glColor3fv(comm::color::RED);
+        cout << "hole" << endl;
         // TODO: set ground to -3.0f and end the game
       }
     } else {
@@ -53,7 +54,7 @@ public:
 
     glTranslatef(positionX, 0.0f, 0.0f);
 
-    draw();
+    // draw();
 
     glPopMatrix();
   }

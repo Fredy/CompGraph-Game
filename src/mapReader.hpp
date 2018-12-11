@@ -95,6 +95,8 @@ public:
       float holeWidth = 0.0f;
       vector<Hole *> holeRow;
 
+      comm::ObstacleType lastInserted = comm::ObstacleType::floor;
+
       while (true) {
         pos = line.find_first_not_of(' ', pos + 1);
         if (pos == string::npos) {
@@ -112,12 +114,19 @@ public:
         }
 
         loadedMap.push_back(obstacle);
-      }
-      if (!holeRow.empty()) {
-        for (auto hole : holeRow) {
-          setHoleProps(hole, holeLeft, holeWidth);
+
+        if (!holeRow.empty() and lastInserted == comm::ObstacleType::hole and
+            comm::ObstacleType(line[pos]) != comm::ObstacleType::hole) {
+          for (auto hole : holeRow) {
+            setHoleProps(hole, holeLeft, holeWidth);
+          }
+          holeRow.clear();
+          holeLeft = 0;
+          holeWidth = 0;
         }
+        lastInserted = comm::ObstacleType(line[pos]);
       }
+
 
       hCount++;
     }
