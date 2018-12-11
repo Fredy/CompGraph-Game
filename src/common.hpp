@@ -16,6 +16,7 @@ enum class ObstacleType {
   box = 'b',
   floor = 'f',
   coin = 'C',
+  goal = 'G',
 };
 
 namespace color {

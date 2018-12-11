@@ -9,6 +9,7 @@
 #include "objects/obstacles/rock.hpp"
 #include "objects/obstacles/floor.hpp"
 #include "objects/player.hpp"
+#include "objects/obstacles/goal.hpp"
 #include <fstream>
 #include <iterator>
 #include <sstream>
@@ -21,6 +22,8 @@ class MapReader {
 private:
   vector<string> fileNames;
   vector<Obstacle *> loadedMap;
+  size_t goalPos; 
+  float progression;
 
   Obstacle *createObstacle(comm::ObstacleType type, float left, float bottom) {
     Obstacle *obstacle = nullptr;
@@ -51,12 +54,19 @@ private:
       obstacle = new Coin(left, bottom);
       obstacle->setVelocity(5.0f);
       break;
+    case comm::ObstacleType::goal:
+      obstacle = new Goal(left, bottom);
+      obstacle->setVelocity(5.0f);
+      break;
+
     default:
       cout << "Type doesn't recognized: " << char(type) << endl;
       break;
     }
     return obstacle;
   }
+
+
 
   void clearLoaderMap() {
     for (int i = 0; i < loadedMap.size(); i++) {
@@ -82,6 +92,8 @@ public:
     }
 
     clearLoaderMap();
+    goalPos = string::npos;
+    progression = 0.0f;
 
     string line;
     const int height = int(comm::UNIT_HEIGHT);
@@ -96,6 +108,14 @@ public:
       vector<Hole *> holeRow;
 
       comm::ObstacleType lastInserted = comm::ObstacleType::floor;
+
+      // Set goal position:
+      if (goalPos == string::npos) {
+        size_t goalPosTmp = line.find_first_of('G');
+        if (goalPosTmp != string::npos) {
+          goalPos = size_t(comm::UNIT_WIDTH) + goalPosTmp;
+        }
+      }
 
       while (true) {
         pos = line.find_first_not_of(' ', pos + 1);
@@ -138,5 +158,22 @@ public:
     for (; i < loadedMap.rend(); i++) {
       (*i)->update(dt,player);
     }
+  }
+
+  void drawProgressBar(float dt) {
+    const float left = 22;
+    const float width = 8;
+    const float bottom = 16;
+    const float height = 0.2f;
+    progression += 5.0f * dt / (goalPos / width);
+    glDisable(GL_TEXTURE_2D);
+    glColor3fv(comm::color::GREEN);
+    glBegin(GL_QUADS);
+    glVertex3f(left, bottom, -1);
+    glVertex3f(left, bottom + height, -1);
+    glVertex3f(left + progression, bottom + height, -1);
+    glVertex3f(left + progression , bottom, -1);
+    glEnd();
+    glEnable(GL_TEXTURE_2D);
   }
 };

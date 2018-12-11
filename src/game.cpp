@@ -32,6 +32,22 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action,
    		exit(1);
     }
 }
+template <typename Functor> void draw2D(Functor &&function) {
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(0.0f, comm::UNIT_WIDTH, 0.0f, comm::UNIT_HEIGHT, -1000.0f, 1000.0f);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+
+  glBegin(GL_TRIANGLES);
+  glColor3f(255,0,0);
+  glVertex3f(100,100,0);
+  glVertex3f(50,200,0);
+  glVertex3f(0,100,0);
+  glEnd();
+
+  function();
+}
 
 GLFWwindow *initGL() {
   // GLFW initialization
@@ -94,12 +110,12 @@ void drawGrid() {
   glColor3f(1, 1, 1);
   for (int i = 0; i <= comm::UNIT_WIDTH; i++) {
     glVertex3f(i, 0, 0);
-    glVertex3f(i, comm::UNIT_HEIGHT, 0);
+    glVertex3f(i, comm::UNIT_HEIGHT, -50);
   }
 
   for (int i = 0; i <= comm::UNIT_HEIGHT; i++) {
     glVertex3f(0, i, 0);
-    glVertex3f(comm::UNIT_WIDTH, i, 0);
+    glVertex3f(comm::UNIT_WIDTH, i, -50);
   }
   glEnd();
 }
@@ -136,7 +152,17 @@ int main() {
     camera.computeMatrices(dt);
     player.handleKeyInput(window);
 
+    // 2D
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0.0f, comm::UNIT_WIDTH, 0.0f, comm::UNIT_HEIGHT, 0.0f, 100.0f);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    mapReader.drawProgressBar(dt);
+
+    // 3D
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glMultMatrixf(&camera.getProjectionMatrix()[0][0]);
@@ -151,12 +177,10 @@ int main() {
     initialFloor.update(dt);
     background.update(dt);
 
-    glColor3f(0,0.8f, 0.1f);
+    glColor3f(0, 0.8f, 0.1f);
 
     mapReader.updateMap(dt, player);
 
-
-    //  drawGrid();
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
