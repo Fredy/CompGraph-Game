@@ -16,4 +16,5 @@ const string bgTexturePath = "textures/background.png";
 const string invisibleTexturePath = "textures/invisible.png";
 const string progresBarTexturePath = "textures/progress_bar.png";
 const string gameOverTexturePath = "textures/gameOver.png";
+const string winTexturePath = "textures/win.png";
 } // namespace config
