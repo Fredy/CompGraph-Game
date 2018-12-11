@@ -27,19 +27,6 @@ void frameBufferSizeCallback(GLFWwindow *window, int width, int height) {
 
 void keyCallback(GLFWwindow *window, int key, int scancode, int action,
                  int mods) {
-  if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-    player.startJump();
-  }
-  if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
-    player.endJump();
-  }
-  if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
-    player.startSlide();
-    player.earlyEndJump();
-  }
-  if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE) {
-    player.endSlide();
-  }
   if (key == GLFW_KEY_ESCAPE){
    		exit(1);
     }
@@ -144,6 +131,7 @@ int main() {
     lastTime = currentTime;
 
     camera.computeMatrices(dt);
+    player.handleKeyInput(window);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
