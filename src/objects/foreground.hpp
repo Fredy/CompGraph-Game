@@ -30,9 +30,9 @@ public:
     setTexCoords({{0, 1}, {1, 1}, {1, 0}, {0, 0} , // front
                   {0, 0}, {1, 0}, {1, 1}, {0, 1} , // bottom
                   {1, 1}, {0, 1}, {0, 0}, {1, 0} , // left
-                  {textureX/2.0f, 1.0f}, {1.0f + textureX/2.0f, 1.0f}, // back 
-                  {1.0f +textureX/2.0f, 0.0f}, {textureX/2.0f, 0.0f},  
-                  {textureX, 3.0f}, {2.0f + textureX, 3.0f},  // top
+                  {textureX, 1.0f}, {2.0f + textureX, 1.0f}, // back 
+                  {2.0f + textureX, 0.75f}, {textureX, 0.75f},  
+                  {textureX, 0.75}, {2.0f + textureX, 0.75},  // top
                   {2.0f +textureX, 0.0f}, {textureX, 0.0f},
                   {0, 1}, {1, 1}, {1, 0}, {0, 0} // right
                 });

@@ -5,25 +5,32 @@ class Floor : public Obstacle {
 private:
   void setRandomTexCoords() {
     using namespace comm::rndTex;
-    vector<array<float, 2>> coords;
-    coords.reserve(24); // 6 faces * 4 coords
-    // Front, bottom, left, back
-    for (int i = 0; i < 4; i++) {
-      const auto &tmp = texPositions[randomDist(generator)];
-      coords.insert(coords.end(), tmp.begin(), tmp.end());
-    }
-    // Top
-    auto tmp = genTexPositions(1, sizeZ)[randomDist(generator) > 1? 1: 3];
-    coords.insert(coords.end(), tmp.begin(), tmp.end());
-    // Right
-    tmp = texPositions[randomDist(generator)];
-    coords.insert(coords.end(), tmp.begin(), tmp.end());
+
+    auto tmp = genTexPositions(sizeZ, 1)[randomDist(generator) > 1? 0: 2];
+    tmp[0] = {tmp[0][0], tmp[0][1] * 0.25f};
+    tmp[1] = {tmp[1][0], tmp[1][1] * 0.25f};
+    tmp[2] = {tmp[2][0], tmp[2][1] * 0.25f};
+    tmp[3] = {tmp[3][0], tmp[3][1] * 0.25f};
+    const vector<array<float, 2>> coords = {
+      // Front
+      {0, 1}, {1, 1}, {1, 0.25}, {0, 0.25}, 
+      // Bottom
+      tmp[0], tmp[1], tmp[2], tmp[3], 
+      // Left
+      {3, 1}, {0, 1}, {0, 0.25}, {3, 0.25}, 
+      // Back
+      {0, 1}, {1, 1}, {1, 0.25}, {0, 0.25},
+      // Top
+      tmp[0], tmp[1], tmp[2], tmp[3], 
+      // Righ
+      {0, 1}, {3, 1}, {3, 0.25}, {0, 0.25}
+    };
     setTexCoords(coords);
   }
 
 public:
-  Floor(float left, float bottom, float depth = 3.0f)
-      : Obstacle(left, bottom, 0, 1, 1, depth) {
+  Floor(float left, float bottom, float depth = 3)
+      : Obstacle(left, bottom - 2, 0, 1, 3, depth) {
     setTextureId(texture::load(config::fgSqrTexturePath));
     setRandomTexCoords();
   }
@@ -48,10 +55,3 @@ public:
 
 
 };
-
-// setTexCoords({{0, 1}, {1, 1}, {1, 0}, {0, 0} ,
-// {0, 0}, {1, 0}, {1, 1}, {0, 1} ,
-//               {1, 1}, {0, 1}, {0, 0}, {1, 0} ,
-//                {0, 1}, {1, 1}, {1, 0}, {0, 0} ,
-//               {0, 1}, {1, 1}, {1, 0}, {0, 0} ,
-//               {0, 1}, {1, 1}, {1, 0}, {0, 0} });

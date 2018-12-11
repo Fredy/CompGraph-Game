@@ -9,6 +9,7 @@
 #include "helpers/texture.hpp"
 #include "objects/foreground.hpp"
 #include "objects/background.hpp"
+#include "objects/initialFloor.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "helpers/camera.hpp"
@@ -111,6 +112,8 @@ int main() {
 
   Foreground foregroundL(-9, 9);
   Foreground foregroundR(3, 9);
+  InitialFloor initialFloor(0,0);
+
   Background background;
 
   MapReader mapReader({"maps/one.map", "maps/two.map", "maps/three.map"});
@@ -144,7 +147,8 @@ int main() {
     player.update(dt);
     glColor3fv(comm::color::WHITE);
     foregroundL.update(dt, player);
-    foregroundR.update(dt, player);
+    // foregroundR.update(dt, player);
+    initialFloor.update(dt);
     background.update(dt);
 
     glColor3f(0,0.8f, 0.1f);

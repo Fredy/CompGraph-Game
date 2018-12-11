@@ -10,8 +10,8 @@ const string holeTexturePath = "textures/hole.png";
 const string coinTexturePath = "textures/coin_Block.png";
 const string fireBallTexturePath = "textures/fireB.png";
 const string boxTexturePath = "";
-const string fgTexturePath = "textures/floor.png";
-const string fgSqrTexturePath = "textures/floor_sqr.png";
+const string fgTexturePath = "textures/floor1.png";
+const string fgSqrTexturePath = "textures/floor_dirt.png";
 const string bgTexturePath = "textures/background.png";
 const string invisibleTexturePath = "textures/invisible.png";
 } // namespace config
