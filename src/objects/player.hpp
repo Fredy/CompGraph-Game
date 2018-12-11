@@ -24,7 +24,7 @@ private:
     // cout << "H: " << height << " W: " << width<< " G:" << ground <<  endl;
     if (isSliding) {
       if (degree < 90.0f) {
-        degree += 10.0f;
+        degree += .0f;
       }
       glRotatef(degree, 0, 0, 1);
       left = 3.0f;            // PLAYER_FIX_POS + width / 2.0f;
