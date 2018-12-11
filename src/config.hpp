@@ -15,4 +15,5 @@ const string fgSqrTexturePath = "textures/floor_dirt.png";
 const string bgTexturePath = "textures/background.png";
 const string invisibleTexturePath = "textures/invisible.png";
 const string progresBarTexturePath = "textures/progress_bar.png";
+const string gameOverTexturePath = "textures/gameOver.png";
 } // namespace config
