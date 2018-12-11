@@ -162,6 +162,13 @@ public:
     }
   }
 
+  void gameOver(){
+    const float left = comm::UNIT_WIDTH /2;
+    const float width = 8.0;
+    const float bottom = comm::UNIT_HEIGHT /2;
+    const float height = 5.0f;
+  }
+
   void drawProgressBar(float dt) {
     const float left = 23.5f;
     const float width = 8;
@@ -170,6 +177,8 @@ public:
     const float barMargin = 1.0f/16.0f;
 
     progression += 5.0f * dt / (goalPos / width);
+    glDisable(GL_LIGHTING);
+    //glEnable(GL_LIGHT0);
 
     glBindTexture(GL_TEXTURE_2D, barTextureId);
     glDisable(GL_TEXTURE_2D);
@@ -203,6 +212,6 @@ public:
     glVertex3f(left + width + barMargin , bottom, 0);   
     glEnd();
 
-
+    glEnable(GL_LIGHTING);
   }
 };

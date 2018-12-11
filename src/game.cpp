@@ -49,6 +49,33 @@ template <typename Functor> void draw2D(Functor &&function) {
   function();
 }
 
+const GLfloat floorAmbient[4] = {0.6f, 0.6f, 0.6f, 1.0f};
+const GLfloat floorDiffuse[4] = {0.8, 0.8f, 0.8f, 1.0f};
+const GLfloat floorSpecular[4] = {0.9f, 0.9f, 0.9f, 1.0f};
+const GLfloat floorShininess = 3.0f;
+
+float luzX = 0.0f;
+float luzY = 10.0f;
+float luzZ = 110.0f;
+float sentido = 0.1;
+
+GLfloat Light0Pos[] = {luzX, luzY, luzZ, 0.0f};
+
+void setupLights() {
+  GLfloat Light0Amb[] = {0.75f, 0.75f, 0.75f, 1.0f};
+  GLfloat Light0Dif[] = {0.9f, 0.9f, 0.9f, 1.0f};
+  GLfloat Light0Spec[] = {0.4f, 0.4f, 0.4f, 1.0f};
+
+  glLightfv(GL_LIGHT0, GL_AMBIENT, Light0Amb);
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, Light0Dif);
+  glLightfv(GL_LIGHT0, GL_SPECULAR, Light0Spec);
+  glLightfv(GL_LIGHT0, GL_POSITION, Light0Pos);
+
+  // Activate light.
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+}
+
 GLFWwindow *initGL() {
   // GLFW initialization
   if (!glfwInit()) {
@@ -89,7 +116,7 @@ GLFWwindow *initGL() {
 //  glDisable(GL_COLOR_MATERIAL);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+  setupLights(); 
 
   return window;
 }
@@ -171,6 +198,18 @@ int main() {
     glMultMatrixf(&camera.getViewMatrix()[0][0]);
 
     player.update(dt);
+
+    glMaterialfv(GL_FRONT, GL_AMBIENT, floorAmbient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, floorDiffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, floorSpecular);
+    glMaterialf(GL_FRONT, GL_SHININESS, floorShininess);
+
+    /*luzX=luzX+sentido;
+    if(luzX > 50 || luzX<-0){sentido = -sentido;}
+    glTranslated(luzX,luzY,luzZ);
+    glColor3f(1,0,0);
+    glutSolidSphere(2,8,8); */
+
     glColor3fv(comm::color::WHITE);
     foregroundL.update(dt, player);
     // foregroundR.update(dt, player);

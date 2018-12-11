@@ -16,15 +16,21 @@ private:
   bool isSliding = false;
   float degree = 0.0f;
   mutable float ground = 0.0f;
+  const GLfloat floorAmbient[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+  const GLfloat floorDiffuse[4] = {0.4, 0.4f, 0.4f, 1.0f};
+  const GLfloat floorSpecular[4] = {0.9f, 0.9f, 0.9f, 1.0f};
+  const GLfloat floorShininess = 3.0f;
+
 
   void fixPosition() { glTranslatef(PLAYER_FIX_POS, PLAYER_FIX_POS, 1); }
 
   void doSlide(float dt) {
+    if(bottom<2.0f){cout << " SB: " << bottom<< " ";}
     // cout << "L: " << left << " B: " << bottom<< " ";
     // cout << "H: " << height << " W: " << width<< " G:" << ground <<  endl;
     if (isSliding) {
       if (degree < 90.0f) {
-        degree += 10.0f;
+        degree += 5.0f;
       }
       glRotatef(degree, 0, 0, 1);
       left = 3.0f;            // PLAYER_FIX_POS + width / 2.0f;
@@ -45,11 +51,14 @@ private:
   }
 
   void doJump(float dt) {
-    velocityY -= gravity;
-    positionY += velocityY * dt;
-    // NOTE: the jump is stopped using setGround().
-    bottom = positionY + PLAYER_FIX_POS - height / 2.0f;
-    glTranslatef(0.0f, positionY, 0.0f);
+    //if (bottom<2.0f) {
+      velocityY -= gravity;
+      positionY += velocityY * dt;
+      // NOTE: the jump is stopped using setGround().
+      bottom = positionY + PLAYER_FIX_POS - height / 2.0f;
+      glTranslatef(0.0f, positionY, 0.0f);
+      if(bottom<2.0f){cout << " JB: " << bottom<< " ";}
+    //}
   }
 
 public:
@@ -67,7 +76,7 @@ public:
   void endJump() {
     if (velocityY > 10.0f + ground) {
       velocityY = 10.0f + ground;
-    }
+      }
   }
 
   void earlyEndJump() { velocityY = ground; }
@@ -78,7 +87,12 @@ public:
   void update(float dt) override {
     // Everything that needs a tranformation must go inside glPushMatrix() and
     // glPopMatrix()
-
+    
+    glMaterialfv(GL_FRONT, GL_AMBIENT, floorAmbient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, floorDiffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, floorSpecular);
+    glMaterialf(GL_FRONT, GL_SHININESS, floorShininess);
+    
     glPushMatrix();
 
     doJump(dt);
