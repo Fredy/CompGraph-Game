@@ -5,6 +5,8 @@
 class Coin : public Obstacle {
 private:
   bool isTransparent = false;
+  bool isCoin =false;
+  int  coin  =0;
   // Coin is not a obstacle, but it has the same behaviours 
 public:
   Coin(float left, float bottom)
@@ -18,6 +20,7 @@ public:
       if (isInsideHorizontal(player.getLeft(), player.getRight())) {
         // setTextureId(texture::load(config::invisibleTexturePath));
         isTransparent = true;
+        isCoin = true;
       } else if (isInsideVertical(player.getBottom(), player.getTop())) {
         if (left <= player.getRight()) {
           // Player is in the right side of the obstacle
@@ -45,7 +48,14 @@ public:
     if (!isTransparent) {
       draw();
     }
-
+    
+    if(isCoin){
+      isCoin = false;  
+      if(coin%12==0 && coin!=0){
+        cout<<"Coin"<<endl;
+      }
+      coin++;
+    }
     glPopMatrix();
   }
 };
